@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
+import { contactDetails } from "@/content";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,19 +46,19 @@ export default function Navbar() {
             About Us
           </Link>
           <Link
-            href="/projects"
+            href="#donation-section"
             className="text-sm font-medium text-gray-700 transition hover:text-orange-600"
           >
-            Our Projects
+            Donation
           </Link>
           <Link
-            href="/gallery"
+            href="#gallery-section"
             className="text-sm font-medium text-gray-700 transition hover:text-orange-600"
           >
             Gallery
           </Link>
           <Link
-            href="/contact"
+            href="#footer-section"
             className="text-sm font-medium text-gray-700 transition hover:text-orange-600"
           >
             Contact
@@ -67,11 +68,13 @@ export default function Navbar() {
         <div className="hidden items-center gap-4 md:flex">
           <div className="flex items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 text-xs font-medium text-green-700">
             <Phone className="h-3 w-3" />
-            <span>+91 98765 43210</span>
+            <span>{contactDetails.phone}</span>
           </div>
-          <Button className="bg-orange-600 hover:bg-orange-700">
-            Donate Now
-          </Button>
+          <Link href="#donation-section">
+            <Button className="bg-orange-600 hover:bg-orange-700">
+              Donate Now
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}

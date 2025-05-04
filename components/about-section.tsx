@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { contactDetails, statsDetails } from "@/content";
+import Link from "next/link";
 
 export default function AboutSection() {
   const establishmentYear = 2015;
@@ -22,28 +23,28 @@ export default function AboutSection() {
   const teamMembers = [
     {
       id: 1,
-      name: "पंडित महंत बालक दास",
+      name: contactDetails.name,
       role: "संस्थापक एवं अध्यक्ष",
       image: "/images/team/founder.png",
     },
     {
       id: 2,
-      name: "डॉ. अनिल वर्मा",
-      role: "पशु चिकित्सक",
-      image: "/images/team/founder.png",
+      name: "श्री प्रेवेश जी राय",
+      role: "कौशाध्यक्ष",
+      image: "/images/team/cofounder.png",
     },
     {
       id: 3,
-      name: "श्रीमती सुनीता देवी",
-      role: "गौशाला प्रबंधक",
-      image: "/images/team/founder.png",
+      name: "श्री महेशकांत जी पटैल",
+      role: "उपाध्यक्ष",
+      image: "/images/team/co.png",
     },
-    {
-      id: 4,
-      name: "श्री मोहन सिंह",
-      role: "कार्यकारी निदेशक",
-      image: "/images/team/founder.png",
-    },
+    // {
+    //   id: 4,
+    //   name: "श्री मोहन सिंह",
+    //   role: "वेबसाइट प्रबंधक",
+    //   image: "/images/team/founder.png",
+    // },
   ];
 
   const stats = [
@@ -131,14 +132,14 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-2xl"
+            className="relative overflow-hidden rounded-2xl h-[600px]"
           >
             <Image
-              src="/images//cow-2.jpeg"
+              src="/images/collage.png"
               alt="गौशाला का इतिहास"
-              width={600}
-              height={400}
-              className="h-full w-full rounded-2xl object-cover"
+              width={500}
+              height={300}
+              className="w-full rounded-2xl object-contain"
             />
             <div className="absolute bottom-4 right-4 rounded-lg bg-white/90 p-2 backdrop-blur-sm">
               <p className="text-sm font-medium text-gray-900">
@@ -157,8 +158,8 @@ export default function AboutSection() {
             <h3 className="text-2xl font-bold text-gray-900">हमारी कहानी</h3>
             <div className="space-y-4 text-gray-600">
               <p>
-                श्री देव राम जानकी गौशाला की स्थापना {establishmentYear} में
-                पंडित महंत बालक दास जी द्वारा की गई थी। उनका हृदय उन बेसहारा और
+                श्री देव राम जानकी गौशाला की स्थापना {establishmentYear} में{" "}
+                {contactDetails.name} द्वारा की गई थी। उनका हृदय उन बेसहारा और
                 पीड़ित गौ माताओं की वेदना से व्याकुल हो उठा जो सड़कों पर भटकने
                 को मजबूर थीं, जिन्हें न भोजन मिल रहा था, न ही सुरक्षित आश्रय। इस
                 करुण स्थिति को देखकर उन्होंने एक संकल्प लिया — गौ सेवा को अपना
@@ -288,7 +289,7 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.id}
@@ -358,13 +359,15 @@ export default function AboutSection() {
               </ul>
             </div>
             <div className="flex items-center justify-center">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white bg-white/10 hover:bg-white/20"
-              >
-                संपर्क फॉर्म
-              </Button>
+              <Link href={contactDetails.call}>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white bg-white/10 hover:bg-white/20"
+                >
+                  संपर्क करें
+                </Button>
+              </Link>
             </div>
           </div>
         </motion.div>

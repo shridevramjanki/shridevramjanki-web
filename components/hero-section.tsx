@@ -13,6 +13,7 @@ import {
 import { Heart, Info, ArrowRight, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import Autoplay from "embla-carousel-autoplay";
+import Link from "next/link";
 
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false);
@@ -39,9 +40,14 @@ export default function HeroSection() {
 
   const images = [
     "/images/banner.png",
-    "/images/cow-2.jpeg",
-    "/images/cow-3.jpeg",
-    "/images/cow-1.jpeg",
+    "/images/gallery/cc1.jpeg",
+    "/images/gallery/c1.jpeg",
+    "/images/gallery/cc5.jpeg",
+    "/images/gallery/cc3.jpeg",
+    "/images/gallery/cc4.jpeg",
+    "/images/gallery/c5.jpeg",
+    "/images/gallery/cc1.jpeg",
+    "/images/gallery/c8.jpeg",
   ];
 
   return (
@@ -112,22 +118,26 @@ export default function HeroSection() {
             </div>
 
             <div className="flex flex-col gap-4 pt-4 sm:flex-row">
-              <Button
-                size="lg"
-                className="group bg-orange-600 text-base hover:bg-orange-700"
-              >
-                <Heart className="mr-2 h-5 w-5" />
-                अभी दान करें
-                <ArrowRight className="ml-2 h-4 w-0 transition-all group-hover:w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-green-700 text-base text-green-700 hover:bg-green-50"
-              >
-                <Info className="mr-2 h-5 w-5" />
-                और जानें
-              </Button>
+              <Link href="#donation-section">
+                <Button
+                  size="lg"
+                  className="group bg-orange-600 text-base hover:bg-orange-700"
+                >
+                  <Heart className="mr-2 h-5 w-5" />
+                  अभी दान करें
+                  <ArrowRight className="ml-2 h-4 w-0 transition-all group-hover:w-4" />
+                </Button>
+              </Link>
+              <Link href="#about-us-section">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-green-700 text-base text-green-700 hover:bg-green-50"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  और जानें
+                </Button>
+              </Link>
             </div>
 
             {/* <div className="mt-6 flex flex-wrap items-center gap-6">

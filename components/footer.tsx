@@ -14,7 +14,7 @@ import { contactDetails } from "@/content";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50">
+    <footer className="bg-gray-50" id="footer-section">
       <div className="container mx-auto px-4 py-12 md:px-6 md:py-16">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
@@ -87,39 +87,39 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/projects"
+                  href="#donation-section"
                   className="text-gray-600 transition-colors hover:text-orange-600"
                 >
-                  हमारे प्रोजेक्ट
+                  अभी दान करें
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/gallery"
+                  href="#gallery-section"
                   className="text-gray-600 transition-colors hover:text-orange-600"
                 >
                   गैलरी
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/testimonials"
                   className="text-gray-600 transition-colors hover:text-orange-600"
                 >
                   प्रशंसापत्र
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <Link
                   href="/faq"
                   className="text-gray-600 transition-colors hover:text-orange-600"
                 >
                   अक्सर पूछे जाने वाले प्रश्न
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
-                  href="/contact"
+                  href={contactDetails.call}
                   className="text-gray-600 transition-colors hover:text-orange-600"
                 >
                   संपर्क करें
@@ -137,11 +137,19 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 flex-shrink-0 text-orange-600" />
-                <span className="text-gray-600"> {contactDetails.phone}</span>
+                <span className="text-gray-600">
+                  <Link href={contactDetails.call}>{contactDetails.phone}</Link>
+                  {" , "}
+                  <Link href={contactDetails.call2}>
+                    {contactDetails.phone2}
+                  </Link>
+                </span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 flex-shrink-0 text-orange-600" />
-                <span className="text-gray-600">{contactDetails.email}</span>
+                <Link href={`mailto:${contactDetails.email}`}>
+                  <span className="text-gray-600">{contactDetails.email}</span>
+                </Link>
               </li>
             </ul>
             <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-3">

@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import Image from "next/image"
-import { motion } from "framer-motion"
+import { useState } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import {
   Check,
   Heart,
@@ -18,10 +18,10 @@ import {
   User,
   Home,
   PhoneIcon,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -29,9 +29,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import Link from "next/link";
+import PaymentDialog from "./payment-dialog";
 
 const donationOptions = [
   {
@@ -39,10 +41,14 @@ const donationOptions = [
     title: "दैनिक गौ सेवा",
     amount: 501,
     description: "एक दिन के लिए एक गौ माता का भोजन और देखभाल",
-    benefits: ["एक गौ माता का एक दिन का चारा", "दवाई और चिकित्सा", "आश्रय और देखभाल"],
+    benefits: [
+      "एक गौ माता का एक दिन का चारा",
+      "दवाई और चिकित्सा",
+      "आश्रय और देखभाल",
+    ],
     icon: <Heart className="h-5 w-5" />,
     popular: false,
-    image: "/images/cow-1.jpeg",
+    image: "/images/cow-1.jpg",
   },
   {
     id: "monthly",
@@ -73,9 +79,9 @@ const donationOptions = [
     ],
     icon: <Award className="h-5 w-5" />,
     popular: false,
-    image: "/images/cow-3.jpeg",
+    image: "/images/cow-3.webp",
   },
-]
+];
 
 const specificDonations = [
   {
@@ -106,60 +112,63 @@ const specificDonations = [
     description: "बेसहारा और घायल गौ माताओं को बचाने के लिए",
     image: "/images/donation/rescue.jpg",
   },
-]
+];
 
-const quickAmounts = [501, 1100, 2100, 5100, 11000, 21000]
+const quickAmounts = [501, 1100, 2100, 5100, 11000, 21000];
 
 export default function DonationSection() {
-  const [selectedDonations, setSelectedDonations] = useState<{ [key: string]: boolean }>({})
-  const [selectedSpecific, setSelectedSpecific] = useState<{ [key: string]: boolean }>({})
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null)
-  const [customAmount, setCustomAmount] = useState("")
-  const [showSummaryDialog, setShowSummaryDialog] = useState(false)
-  const [showUserDetailsDialog, setShowUserDetailsDialog] = useState(false)
-  const [showPaymentDialog, setShowPaymentDialog] = useState(false)
-  const [copiedUPI, setCopiedUPI] = useState(false)
-  const [copiedAccount, setCopiedAccount] = useState(false)
+  const [selectedDonations, setSelectedDonations] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [selectedSpecific, setSelectedSpecific] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+  const [customAmount, setCustomAmount] = useState("");
+  const [showSummaryDialog, setShowSummaryDialog] = useState(false);
+  const [showUserDetailsDialog, setShowUserDetailsDialog] = useState(false);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+
   const [userDetails, setUserDetails] = useState({
     name: "",
     address: "",
     phone: "",
-  })
+  });
   const [formErrors, setFormErrors] = useState({
     name: false,
     address: false,
     phone: false,
-  })
+  });
 
   const toggleDonation = (donationId: string) => {
     setSelectedDonations((prev) => {
-      const newState = { ...prev }
+      const newState = { ...prev };
       // Unselect all other options first (radio button behavior)
       Object.keys(newState).forEach((key) => {
-        newState[key] = false
-      })
+        newState[key] = false;
+      });
       // Toggle the selected one
-      newState[donationId] = !prev[donationId]
-      return newState
-    })
-  }
+      newState[donationId] = !prev[donationId];
+      return newState;
+    });
+  };
 
   const toggleSpecific = (donationId: string) => {
     setSelectedSpecific((prev) => ({
       ...prev,
       [donationId]: !prev[donationId],
-    }))
-  }
+    }));
+  };
 
   const handleAmountSelect = (amount: number) => {
-    setSelectedAmount(amount)
-    setCustomAmount("")
-  }
+    setSelectedAmount(amount);
+    setCustomAmount("");
+  };
 
   const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCustomAmount(e.target.value)
-    setSelectedAmount(null)
-  }
+    setCustomAmount(e.target.value);
+    setSelectedAmount(null);
+  };
 
   const calculateTotal = () => {
     // If we're in direct payment mode (from custom donation section)
@@ -169,41 +178,41 @@ export default function DonationSection() {
       !Object.values(selectedDonations).some((v) => v) &&
       !Object.values(selectedSpecific).some((v) => v)
     ) {
-      return selectedAmount || (customAmount ? Number(customAmount) : 0)
+      return selectedAmount || (customAmount ? Number(customAmount) : 0);
     }
 
-    let total = 0
+    let total = 0;
 
     // Add main donation options
     Object.entries(selectedDonations).forEach(([id, selected]) => {
       if (selected) {
-        const donation = donationOptions.find((d) => d.id === id)
-        if (donation) total += donation.amount
+        const donation = donationOptions.find((d) => d.id === id);
+        if (donation) total += donation.amount;
       }
-    })
+    });
 
     // Add specific donations
     Object.entries(selectedSpecific).forEach(([id, selected]) => {
       if (selected) {
-        const donation = specificDonations.find((d) => d.id === id)
-        if (donation) total += donation.amount
+        const donation = specificDonations.find((d) => d.id === id);
+        if (donation) total += donation.amount;
       }
-    })
+    });
 
     // Add selected or custom amount
     if (selectedAmount) {
-      total += selectedAmount
+      total += selectedAmount;
     } else if (customAmount) {
-      total += Number.parseInt(customAmount) || 0
+      total += Number.parseInt(customAmount) || 0;
     }
 
-    return total
-  }
+    return total;
+  };
 
   const handleProceedToUserDetails = () => {
-    setShowSummaryDialog(false)
-    setShowUserDetailsDialog(true)
-  }
+    setShowSummaryDialog(false);
+    setShowUserDetailsDialog(true);
+  };
 
   const handleUserDetailsSubmit = () => {
     // Validate form
@@ -211,46 +220,46 @@ export default function DonationSection() {
       name: !userDetails.name.trim(),
       address: !userDetails.address.trim(),
       phone: !userDetails.phone.trim() || !/^\d{10}$/.test(userDetails.phone),
-    }
+    };
 
-    setFormErrors(errors)
+    setFormErrors(errors);
 
     if (Object.values(errors).some((error) => error)) {
-      return // Don't proceed if there are errors
+      return; // Don't proceed if there are errors
     }
 
     // Close user details dialog and open payment dialog
-    setShowUserDetailsDialog(false)
-    setShowPaymentDialog(true)
+    setShowUserDetailsDialog(false);
+    setShowPaymentDialog(true);
 
     // In a real application, you would send an email here
     // For demo purposes, we'll just show a toast notification
-    sendDonationDetailsEmail()
-  }
+    sendDonationDetailsEmail();
+  };
 
   const sendDonationDetailsEmail = () => {
     // Get selected donation details
     const selectedDonationsList = Object.entries(selectedDonations)
       .filter(([_, selected]) => selected)
       .map(([id]) => {
-        const donation = donationOptions.find((d) => d.id === id)
-        return donation ? `${donation.title} (₹${donation.amount})` : null
+        const donation = donationOptions.find((d) => d.id === id);
+        return donation ? `${donation.title} (₹${donation.amount})` : null;
       })
-      .filter(Boolean)
+      .filter(Boolean);
 
     const selectedSpecificList = Object.entries(selectedSpecific)
       .filter(([_, selected]) => selected)
       .map(([id]) => {
-        const donation = specificDonations.find((d) => d.id === id)
-        return donation ? `${donation.title} (₹${donation.amount})` : null
+        const donation = specificDonations.find((d) => d.id === id);
+        return donation ? `${donation.title} (₹${donation.amount})` : null;
       })
-      .filter(Boolean)
+      .filter(Boolean);
 
     const customDonation = selectedAmount
       ? `स्वेच्छा से दान (₹${selectedAmount})`
       : customAmount
-        ? `स्वेच्छा से दान (₹${customAmount})`
-        : null
+      ? `स्वेच्छा से दान (₹${customAmount})`
+      : null;
 
     // Simulate sending an email
     console.log("Sending donation details email:", {
@@ -263,44 +272,44 @@ export default function DonationSection() {
         फोन: ${userDetails.phone}
         
         दान विवरण:
-        ${selectedDonationsList.length ? "मुख्य दान: " + selectedDonationsList.join(", ") : ""}
-        ${selectedSpecificList.length ? "विशेष दान: " + selectedSpecificList.join(", ") : ""}
+        ${
+          selectedDonationsList.length
+            ? "मुख्य दान: " + selectedDonationsList.join(", ")
+            : ""
+        }
+        ${
+          selectedSpecificList.length
+            ? "विशेष दान: " + selectedSpecificList.join(", ")
+            : ""
+        }
         ${customDonation ? customDonation : ""}
         
         कुल राशि: ₹${calculateTotal()}
       `,
-    })
+    });
 
     // Show success toast
     toast({
       title: "विवरण भेजा गया",
       description: "आपका दान विवरण हमें प्राप्त हो गया है। धन्यवाद!",
       duration: 5000,
-    })
-  }
+    });
+  };
 
-  const copyToClipboard = (text: string, type: "upi" | "account") => {
-    navigator.clipboard.writeText(text)
-    if (type === "upi") {
-      setCopiedUPI(true)
-      setTimeout(() => setCopiedUPI(false), 2000)
-    } else {
-      setCopiedAccount(true)
-      setTimeout(() => setCopiedAccount(false), 2000)
-    }
-  }
-
-  const totalAmount = calculateTotal()
+  const totalAmount = calculateTotal();
   const hasSelections =
     Object.values(selectedDonations).some((v) => v) ||
     Object.values(selectedSpecific).some((v) => v) ||
     selectedAmount !== null ||
-    customAmount !== ""
+    customAmount !== "";
 
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-green-50 to-white py-16 md:py-20">
+    <section
+      id="donation-section"
+      className="relative w-full overflow-hidden bg-gradient-to-br from-green-50 to-white py-16 md:py-20 z-40"
+    >
       {/* Decorative Elements */}
-      <div className="absolute inset-0 z-0">
+      {/* <div className="absolute inset-0 z-0">
         <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-orange-100 opacity-40"></div>
         <div className="absolute top-20 -left-20 h-64 w-64 rounded-full bg-green-100 opacity-40"></div>
         <Image
@@ -310,7 +319,7 @@ export default function DonationSection() {
           height={200}
           className="absolute top-10 right-10 opacity-50 object-contain"
         />
-      </div>
+      </div> */}
 
       <div className="container relative z-10 mx-auto px-4 md:px-6">
         <div className="mb-12 text-center">
@@ -339,7 +348,8 @@ export default function DonationSection() {
             viewport={{ once: true }}
             className="mx-auto mt-4 max-w-2xl text-gray-600"
           >
-            आप अपनी क्षमता और इच्छा अनुसार गौ सेवा में सहयोग कर सकते हैं। आपका हर दान गौ माताओं के कल्याण के लिए महत्वपूर्ण है।
+            आप अपनी क्षमता और इच्छा अनुसार गौ सेवा में सहयोग कर सकते हैं। आपका
+            हर दान गौ माताओं के कल्याण के लिए महत्वपूर्ण है।
           </motion.p>
         </div>
 
@@ -353,12 +363,14 @@ export default function DonationSection() {
               transition={{ duration: 0.5, delay: 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
-              className={`group overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg ${
-                selectedDonations[option.id] ? "ring-2 ring-green-500 shadow-lg" : "bg-white shadow-md"
+              className={`group overflow-hidden rounded-xl relative transition-all duration-300 hover:shadow-lg ${
+                selectedDonations[option.id]
+                  ? "ring-2 ring-green-500 shadow-lg"
+                  : "bg-white shadow-md"
               } ${option.popular ? "border-orange-200" : ""}`}
             >
               {option.popular && (
-                <div className="absolute -right-12 top-7 z-10 rotate-45 bg-orange-500 px-12 py-1 text-xs font-medium text-white">
+                <div className="absolute -right-9 top-4 z-10 rotate-45 bg-orange-500 px-12 py-1 text-xs font-medium text-white">
                   लोकप्रिय
                 </div>
               )}
@@ -371,7 +383,9 @@ export default function DonationSection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="text-lg font-semibold text-white">{option.title}</p>
+                  <p className="text-lg font-semibold text-white">
+                    {option.title}
+                  </p>
                   <p className="text-sm text-white/80">{option.description}</p>
                 </div>
               </div>
@@ -382,11 +396,15 @@ export default function DonationSection() {
                       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
                         {option.icon}
                       </div>
-                      <span className="text-xl font-bold text-gray-900">₹{option.amount}</span>
+                      <span className="text-xl font-bold text-gray-900">
+                        ₹{option.amount}
+                      </span>
                     </div>
                     <Button
                       size="sm"
-                      variant={selectedDonations[option.id] ? "default" : "outline"}
+                      variant={
+                        selectedDonations[option.id] ? "default" : "outline"
+                      }
                       className={
                         selectedDonations[option.id]
                           ? "bg-green-600 hover:bg-green-700"
@@ -394,11 +412,19 @@ export default function DonationSection() {
                       }
                       onClick={() => toggleDonation(option.id)}
                     >
-                      {selectedDonations[option.id] ? "चयनित ✓" : option.id === "daily" ? "दान करें" : "गोद लें"}
+                      {selectedDonations[option.id]
+                        ? "चयनित ✓"
+                        : option.id === "daily"
+                        ? "दान करें"
+                        : "गोद लें"}
                     </Button>
                   </div>
-                  {option.id === "monthly" && <span className="text-gray-500">/माह</span>}
-                  {option.id === "yearly" && <span className="text-gray-500">/वर्ष</span>}
+                  {option.id === "monthly" && (
+                    <span className="text-gray-500">/माह</span>
+                  )}
+                  {option.id === "yearly" && (
+                    <span className="text-gray-500">/वर्ष</span>
+                  )}
                 </div>
                 <ul className="space-y-2">
                   {option.benefits.map((benefit, index) => (
@@ -416,8 +442,12 @@ export default function DonationSection() {
         {/* Specific Donation Needs */}
         <div className="mb-16">
           <div className="mb-8 text-center">
-            <h3 className="text-2xl font-bold text-gray-900">विशेष आवश्यकताएं</h3>
-            <p className="mt-2 text-gray-600">आप इन विशेष आवश्यकताओं के लिए भी दान कर सकते हैं</p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              विशेष आवश्यकताएं
+            </h3>
+            <p className="mt-2 text-gray-600">
+              आप इन विशेष आवश्यकताओं के लिए भी दान कर सकते हैं
+            </p>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -443,17 +473,25 @@ export default function DonationSection() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="text-lg font-semibold text-white">{donation.title}</p>
-                    <p className="text-sm text-white/80">{donation.description}</p>
+                    <p className="text-lg font-semibold text-white">
+                      {donation.title}
+                    </p>
+                    <p className="text-sm text-white/80">
+                      {donation.description}
+                    </p>
                   </div>
                 </div>
                 <div className="p-4">
                   <div className="flex items-center justify-between">
-                    <span className="font-medium text-orange-600">₹{donation.amount}</span>
+                    <span className="font-medium text-orange-600">
+                      ₹{donation.amount}
+                    </span>
                     {selectedSpecific[donation.id] ? (
                       <span className="text-green-600">चयनित ✓</span>
                     ) : (
-                      <span className="text-sm text-gray-500">चयन करने के लिए क्लिक करें</span>
+                      <span className="text-sm text-gray-500">
+                        चयन करने के लिए क्लिक करें
+                      </span>
                     )}
                   </div>
                 </div>
@@ -471,8 +509,12 @@ export default function DonationSection() {
           className="mx-auto mb-16 max-w-3xl rounded-2xl bg-white p-6 shadow-lg md:p-8"
         >
           <div className="mb-6 text-center">
-            <h3 className="text-2xl font-bold text-gray-900">अपनी इच्छानुसार दान करें</h3>
-            <p className="mt-2 text-gray-600">आप अपनी इच्छा अनुसार राशि चुन सकते हैं</p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              अपनी इच्छानुसार दान करें
+            </h3>
+            <p className="mt-2 text-gray-600">
+              आप अपनी इच्छा अनुसार राशि चुन सकते हैं
+            </p>
           </div>
 
           <div className="mb-6 grid grid-cols-3 gap-3 sm:grid-cols-6">
@@ -493,7 +535,10 @@ export default function DonationSection() {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="custom-amount" className="mb-2 block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="custom-amount"
+              className="mb-2 block text-sm font-medium text-gray-700"
+            >
               अन्य राशि (₹)
             </label>
             <input
@@ -510,9 +555,12 @@ export default function DonationSection() {
             <div className="flex items-start gap-3">
               <Shield className="mt-1 h-5 w-5 flex-shrink-0 text-green-600" />
               <div>
-                <h4 className="font-medium text-green-800">100% सुरक्षित और पारदर्शी</h4>
+                <h4 className="font-medium text-green-800">
+                  100% सुरक्षित और पारदर्शी
+                </h4>
                 <p className="mt-1 text-sm text-green-700">
-                  आपका दान पूरी तरह से गौ माताओं के कल्याण के लिए उपयोग किया जाता है। हम नियमित रूप से दानदाताओं को अपडेट भेजते हैं।
+                  आपका दान पूरी तरह से गौ माताओं के कल्याण के लिए उपयोग किया
+                  जाता है। हम नियमित रूप से दानदाताओं को अपडेट भेजते हैं।
                 </p>
               </div>
             </div>
@@ -523,13 +571,14 @@ export default function DonationSection() {
               className="flex-1 bg-green-600 hover:bg-green-700"
               onClick={() => {
                 // Use the selected or custom amount directly
-                const directAmount = selectedAmount || (customAmount ? Number(customAmount) : 0)
+                const directAmount =
+                  selectedAmount || (customAmount ? Number(customAmount) : 0);
                 if (directAmount > 0) {
                   // Clear other selections to only use this amount
-                  setSelectedDonations({})
-                  setSelectedSpecific({})
+                  setSelectedDonations({});
+                  setSelectedSpecific({});
                   // Open user details dialog
-                  setShowUserDetailsDialog(true)
+                  setShowUserDetailsDialog(true);
                 }
               }}
               disabled={!selectedAmount && !customAmount}
@@ -542,15 +591,16 @@ export default function DonationSection() {
               className="flex-1 border-orange-600 text-orange-600 hover:bg-orange-50 hover:text-orange-700"
               onClick={() => {
                 // Use the selected or custom amount directly for UPI payment
-                const directAmount = selectedAmount || (customAmount ? Number(customAmount) : 0)
+                const directAmount =
+                  selectedAmount || (customAmount ? Number(customAmount) : 0);
                 if (directAmount > 0) {
                   // Clear other selections to only use this amount
-                  setSelectedDonations({})
-                  setSelectedSpecific({})
+                  setSelectedDonations({});
+                  setSelectedSpecific({});
                   // Generate UPI link with amount
-                  const upiLink = `upi://pay?pa=gauseva@ybl&pn=Gau%20Seva%20Trust&am=${directAmount}&cu=INR`
+                  const upiLink = `upi://pay?pa=gauseva@ybl&pn=Gau%20Seva%20Trust&am=${directAmount}&cu=INR`;
                   // Open in new tab or handle as needed
-                  window.open(upiLink, "_blank")
+                  window.open(upiLink, "_blank");
                 }
               }}
               disabled={!selectedAmount && !customAmount}
@@ -563,7 +613,10 @@ export default function DonationSection() {
           {(selectedAmount || customAmount) && (
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-600">
-                चयनित राशि: <span className="font-medium text-green-600">₹{selectedAmount || customAmount}</span>
+                चयनित राशि:{" "}
+                <span className="font-medium text-green-600">
+                  ₹{selectedAmount || customAmount}
+                </span>
               </p>
             </div>
           )}
@@ -580,7 +633,9 @@ export default function DonationSection() {
             <div className="container mx-auto flex flex-col items-center justify-between gap-4 sm:flex-row">
               <div>
                 <p className="text-sm text-gray-500">कुल राशि</p>
-                <p className="text-2xl font-bold text-green-600">₹{totalAmount}</p>
+                <p className="text-2xl font-bold text-green-600">
+                  ₹{totalAmount}
+                </p>
               </div>
               <Button
                 className="w-full bg-green-600 hover:bg-green-700 sm:w-auto"
@@ -599,24 +654,33 @@ export default function DonationSection() {
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>आपके दान विकल्प</DialogTitle>
-              <DialogDescription>आपके द्वारा चुने गए दान विकल्पों का विवरण</DialogDescription>
+              <DialogDescription>
+                आपके द्वारा चुने गए दान विकल्पों का विवरण
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               {/* Main Donation Options */}
               <div className="space-y-2">
                 <h4 className="font-medium">गौ दत्तक / सेवा</h4>
-                {Object.entries(selectedDonations).some(([_, selected]) => selected) ? (
+                {Object.entries(selectedDonations).some(
+                  ([_, selected]) => selected
+                ) ? (
                   <ul className="space-y-2">
                     {Object.entries(selectedDonations).map(([id, selected]) => {
-                      if (!selected) return null
-                      const donation = donationOptions.find((d) => d.id === id)
-                      if (!donation) return null
+                      if (!selected) return null;
+                      const donation = donationOptions.find((d) => d.id === id);
+                      if (!donation) return null;
                       return (
-                        <li key={id} className="flex items-center justify-between">
+                        <li
+                          key={id}
+                          className="flex items-center justify-between"
+                        >
                           <span>{donation.title}</span>
-                          <span className="font-medium">₹{donation.amount}</span>
+                          <span className="font-medium">
+                            ₹{donation.amount}
+                          </span>
                         </li>
-                      )
+                      );
                     })}
                   </ul>
                 ) : (
@@ -627,22 +691,33 @@ export default function DonationSection() {
               {/* Specific Donations */}
               <div className="space-y-2">
                 <h4 className="font-medium">विशेष आवश्यकताएं</h4>
-                {Object.entries(selectedSpecific).some(([_, selected]) => selected) ? (
+                {Object.entries(selectedSpecific).some(
+                  ([_, selected]) => selected
+                ) ? (
                   <ul className="space-y-2">
                     {Object.entries(selectedSpecific).map(([id, selected]) => {
-                      if (!selected) return null
-                      const donation = specificDonations.find((d) => d.id === id)
-                      if (!donation) return null
+                      if (!selected) return null;
+                      const donation = specificDonations.find(
+                        (d) => d.id === id
+                      );
+                      if (!donation) return null;
                       return (
-                        <li key={id} className="flex items-center justify-between">
+                        <li
+                          key={id}
+                          className="flex items-center justify-between"
+                        >
                           <span>{donation.title}</span>
-                          <span className="font-medium">₹{donation.amount}</span>
+                          <span className="font-medium">
+                            ₹{donation.amount}
+                          </span>
                         </li>
-                      )
+                      );
                     })}
                   </ul>
                 ) : (
-                  <p className="text-gray-500">कोई विशेष आवश्यकता चयनित नहीं है</p>
+                  <p className="text-gray-500">
+                    कोई विशेष आवश्यकता चयनित नहीं है
+                  </p>
                 )}
               </div>
 
@@ -652,7 +727,9 @@ export default function DonationSection() {
                   <h4 className="font-medium">अतिरिक्त राशि</h4>
                   <div className="flex items-center justify-between">
                     <span>स्वेच्छा से दान</span>
-                    <span className="font-medium">₹{selectedAmount || customAmount}</span>
+                    <span className="font-medium">
+                      ₹{selectedAmount || customAmount}
+                    </span>
                   </div>
                 </div>
               )}
@@ -665,10 +742,16 @@ export default function DonationSection() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setShowSummaryDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowSummaryDialog(false)}
+              >
                 संशोधित करें
               </Button>
-              <Button onClick={handleProceedToUserDetails} className="bg-green-600 hover:bg-green-700">
+              <Button
+                onClick={handleProceedToUserDetails}
+                className="bg-green-600 hover:bg-green-700"
+              >
                 विवरण भरें
               </Button>
             </DialogFooter>
@@ -676,11 +759,16 @@ export default function DonationSection() {
         </Dialog>
 
         {/* User Details Dialog */}
-        <Dialog open={showUserDetailsDialog} onOpenChange={setShowUserDetailsDialog}>
+        <Dialog
+          open={showUserDetailsDialog}
+          onOpenChange={setShowUserDetailsDialog}
+        >
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>अपना विवरण भरें</DialogTitle>
-              <DialogDescription>दान प्रक्रिया को पूरा करने के लिए कृपया अपना विवरण भरें</DialogDescription>
+              <DialogDescription>
+                दान प्रक्रिया को पूरा करने के लिए कृपया अपना विवरण भरें
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
@@ -694,12 +782,20 @@ export default function DonationSection() {
                   <Input
                     id="name"
                     value={userDetails.name}
-                    onChange={(e) => setUserDetails({ ...userDetails, name: e.target.value })}
-                    className={`pl-10 ${formErrors.name ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                    onChange={(e) =>
+                      setUserDetails({ ...userDetails, name: e.target.value })
+                    }
+                    className={`pl-10 ${
+                      formErrors.name
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }`}
                     placeholder="अपना पूरा नाम दर्ज करें"
                   />
                 </div>
-                {formErrors.name && <p className="text-xs text-red-500">नाम आवश्यक है</p>}
+                {formErrors.name && (
+                  <p className="text-xs text-red-500">नाम आवश्यक है</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -713,12 +809,23 @@ export default function DonationSection() {
                   <Textarea
                     id="address"
                     value={userDetails.address}
-                    onChange={(e) => setUserDetails({ ...userDetails, address: e.target.value })}
-                    className={`min-h-[80px] pl-10 ${formErrors.address ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                    onChange={(e) =>
+                      setUserDetails({
+                        ...userDetails,
+                        address: e.target.value,
+                      })
+                    }
+                    className={`min-h-[80px] pl-10 ${
+                      formErrors.address
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }`}
                     placeholder="अपना पूरा पता दर्ज करें"
                   />
                 </div>
-                {formErrors.address && <p className="text-xs text-red-500">पता आवश्यक है</p>}
+                {formErrors.address && (
+                  <p className="text-xs text-red-500">पता आवश्यक है</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -733,29 +840,46 @@ export default function DonationSection() {
                     id="phone"
                     type="tel"
                     value={userDetails.phone}
-                    onChange={(e) => setUserDetails({ ...userDetails, phone: e.target.value })}
-                    className={`pl-10 ${formErrors.phone ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                    onChange={(e) =>
+                      setUserDetails({ ...userDetails, phone: e.target.value })
+                    }
+                    className={`pl-10 ${
+                      formErrors.phone
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }`}
                     placeholder="10 अंकों का मोबाइल नंबर"
                     maxLength={10}
                   />
                 </div>
-                {formErrors.phone && <p className="text-xs text-red-500">सही फोन नंबर दर्ज करें (10 अंक)</p>}
+                {formErrors.phone && (
+                  <p className="text-xs text-red-500">
+                    सही फोन नंबर दर्ज करें (10 अंक)
+                  </p>
+                )}
               </div>
 
               <div className="rounded-lg bg-amber-50 p-3">
                 <div className="flex items-start gap-2">
                   <Mail className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
                   <p className="text-xs text-amber-800">
-                    आपका विवरण और दान की जानकारी हमारे द्वारा संग्रहित की जाएगी और आपको रसीद भेजने के लिए उपयोग की जाएगी।
+                    आपका विवरण और दान की जानकारी हमारे द्वारा संग्रहित की जाएगी
+                    और आपको रसीद भेजने के लिए उपयोग की जाएगी।
                   </p>
                 </div>
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setShowUserDetailsDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowUserDetailsDialog(false)}
+              >
                 वापस जाएं
               </Button>
-              <Button onClick={handleUserDetailsSubmit} className="bg-green-600 hover:bg-green-700">
+              <Button
+                onClick={handleUserDetailsSubmit}
+                className="bg-green-600 hover:bg-green-700"
+              >
                 भुगतान करें
               </Button>
             </DialogFooter>
@@ -763,85 +887,11 @@ export default function DonationSection() {
         </Dialog>
 
         {/* Payment Dialog */}
-        <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>दान भुगतान</DialogTitle>
-              <DialogDescription>कृपया निम्न विकल्पों में से किसी एक का उपयोग करके भुगतान करें</DialogDescription>
-            </DialogHeader>
-            <div className="space-y-6 py-4">
-              <div className="flex flex-col items-center justify-center space-y-4">
-                <p className="text-lg font-medium text-green-600">₹{totalAmount}</p>
-                <div className="rounded-lg border-2 border-green-200 p-2">
-                  <Image
-                    src="/images/payment/qr-code.png"
-                    alt="Payment QR Code"
-                    width={200}
-                    height={200}
-                    className="h-48 w-48 object-contain"
-                  />
-                </div>
-                <p className="text-sm text-gray-500">QR कोड स्कैन करके भुगतान करें</p>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="font-medium">या UPI आईडी का उपयोग करें</h4>
-                <div className="flex items-center gap-2 rounded-md border bg-green-50 p-2">
-                  <span className="flex-1 text-green-800">gauseva@ybl</span>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => copyToClipboard("gauseva@ybl", "upi")}
-                    className="h-8 w-8 p-0"
-                  >
-                    {copiedUPI ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => {
-                    const upiLink = `upi://pay?pa=gauseva@ybl&pn=Gau%20Seva%20Trust&am=${totalAmount}&cu=INR`
-                    window.open(upiLink, "_blank")
-                  }}
-                >
-                  UPI ऐप में खोलें (₹{totalAmount})
-                </Button>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="font-medium">या बैंक खाते में भुगतान करें</h4>
-                <div className="rounded-md border bg-gray-50 p-3 text-sm">
-                  <p>
-                    <span className="font-medium">खाता नाम:</span> गौ सेवा ट्रस्ट
-                  </p>
-                  <p>
-                    <span className="font-medium">खाता संख्या:</span> 1234567890
-                  </p>
-                  <p>
-                    <span className="font-medium">IFSC कोड:</span> SBIN0012345
-                  </p>
-                  <p>
-                    <span className="font-medium">बैंक:</span> भारतीय स्टेट बैंक
-                  </p>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="mt-2 w-full"
-                    onClick={() => copyToClipboard("गौ सेवा ट्रस्ट, 1234567890, SBIN0012345, भारतीय स्टेट बैंक", "account")}
-                  >
-                    {copiedAccount ? "कॉपी किया गया ✓" : "बैंक विवरण कॉपी करें"}
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button onClick={() => setShowPaymentDialog(false)} className="bg-green-600 hover:bg-green-700">
-                संपन्न
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <PaymentDialog
+          setShowPaymentDialog={setShowPaymentDialog}
+          showPaymentDialog={showPaymentDialog}
+          totalAmount={totalAmount}
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -850,19 +900,26 @@ export default function DonationSection() {
           viewport={{ once: true }}
           className="mt-12 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 p-8 text-center text-white shadow-lg"
         >
-          <h3 className="mb-4 text-2xl font-bold">गौ सेवा, सबसे बड़ा पुण्य कार्य</h3>
-          <p className="mb-6 text-orange-100">आपका दान गौ माताओं के जीवन को बदल सकता है। आज ही दान करें और पुण्य के भागी बनें।</p>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-white bg-white/10 text-white hover:bg-white/20"
-            onClick={() => setShowSummaryDialog(true)}
-          >
-            <Heart className="mr-2 h-5 w-5" />
-            अभी दान करें
-          </Button>
+          <h3 className="mb-4 text-2xl font-bold">
+            गौ सेवा, सबसे बड़ा पुण्य कार्य
+          </h3>
+          <p className="mb-6 text-orange-100">
+            आपका दान गौ माताओं के जीवन को बदल सकता है। आज ही दान करें और पुण्य
+            के भागी बनें।
+          </p>
+          <Link href="#donation-section">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white bg-white/10 text-white hover:bg-white/20"
+              // onClick={() => setShowSummaryDialog(true)}
+            >
+              <Heart className="mr-2 h-5 w-5" />
+              अभी दान करें
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

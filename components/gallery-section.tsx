@@ -16,65 +16,89 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 const galleryImages = [
   {
     id: 1,
-    src: "/images/gallery/cow-1.jpeg",
+    src: "/images/gallery/c1.jpeg",
+    alt: "गौशाला",
+    category: "facilities",
+  },
+  {
+    id: 2,
+    src: "/images/gallery/c2.jpeg",
+    alt: "गौशाला",
+    category: "facilities",
+  },
+  {
+    id: 111,
+    src: "/images/gallery/cc1.jpeg",
+    alt: "स्वयंसेवक गौ सेवा करते हुए",
+    category: "volunteers",
+  },
+  {
+    id: 3,
+    src: "/images/gallery/c3.jpeg",
+    alt: "गौशाला",
+    category: "facilities",
+  },
+  {
+    id: 4,
+    src: "/images/gallery/c4.jpeg",
+    alt: "गौशाला",
+    category: "facilities",
+  },
+  {
+    id: 5,
+    src: "/images/gallery/c5.jpeg",
+    alt: "गौशाला",
+    category: "facilities",
+  },
+  {
+    id: 6,
+    src: "/images/gallery/c6.jpeg",
+    alt: "गौशाला",
+    category: "facilities",
+  },
+  {
+    id: 7,
+    src: "/images/gallery/c7.jpeg",
+    alt: "गौशाला",
+    category: "facilities",
+  },
+  {
+    id: 8,
+    src: "/images/gallery/c8.jpeg",
+    alt: "गौशाला",
+    category: "facilities",
+  },
+  {
+    id: 9,
+    src: "/images/gallery/cc7.jpeg",
     alt: "गौशाला में गौ माता",
     category: "cows",
     featured: true,
   },
   {
-    id: 2,
-    src: "/images/gallery/cow-1.jpeg",
-    alt: "आधुनिक गौशाला",
-    category: "facilities",
-  },
-  {
-    id: 3,
-    src: "/images/gallery/cow-1.jpeg",
+    id: 11,
+    src: "/images/gallery/cc3.jpeg",
     alt: "स्वयंसेवक गौ सेवा करते हुए",
     category: "volunteers",
   },
   {
-    id: 4,
-    src: "/images/gallery/cow-1.jpeg",
+    id: 12,
+    src: "/images/gallery/cc5.jpeg",
     alt: "गौ माता और बछड़ा",
     category: "cows",
     featured: true,
   },
   {
-    id: 5,
-    src: "/images/gallery/cow-1.jpeg",
-    alt: "गौ पूजा समारोह",
-    category: "events",
-  },
-  {
-    id: 6,
-    src: "/images/gallery/cow-1.jpeg",
-    alt: "चारा भंडार",
-    category: "facilities",
-  },
-  {
-    id: 7,
-    src: "/images/gallery/cow-1.jpeg",
+    id: 14,
+    src: "/images/gallery/cc6.jpeg",
     alt: "गौ माता का समूह",
     category: "cows",
   },
   {
-    id: 8,
-    src: "/images/gallery/cow-1.jpeg",
-    alt: "गौ चिकित्सा शिविर",
+    id: 5,
+    src: "/images/gallery/cc4.jpeg",
+    alt: "स्वयंसेवक गौ सेवा करते हुए",
     category: "volunteers",
-  },
-  {
-    id: 9,
-    src: "/images/gallery/cow-1.jpeg",
-    alt: "गौ दान समारोह",
-    category: "events",
-  },
-  {
-    id: 10,
-    src: "/images/gallery/cow-1.jpeg",
-    alt: "नवजात बछड़ा",
-    category: "cows",
   },
 ];
 
@@ -83,7 +107,7 @@ const categories = [
   { id: "cows", name: "गौ माता" },
   { id: "facilities", name: "गौशाला" },
   { id: "volunteers", name: "स्वयंसेवक" },
-  { id: "events", name: "कार्यक्रम" },
+  // { id: "events", name: "कार्यक्रम" },
 ];
 
 export default function GallerySection() {
@@ -96,7 +120,10 @@ export default function GallerySection() {
       : galleryImages.filter((img) => img.category === selectedCategory);
 
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-white to-orange-50 py-16 md:py-20">
+    <section
+      id="gallery-section"
+      className="relative w-full overflow-hidden bg-gradient-to-br from-white to-orange-50 py-16 md:py-20"
+    >
       {/* Decorative Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute -top-20 right-20 h-64 w-64 rounded-full bg-green-100 opacity-40"></div>
