@@ -1,0 +1,19 @@
+export const contactDetails = {
+  email: "shridevramjanki@gmail.com",
+  phone: "+91 9179780705",
+  address:
+    "श्री देवराम जानकी गौशाला, ग्राम बगदरा, गाडरवारा, जिला नरसिंहपुर, मध्य प्रदेश – 487551",
+  facebook: "https://www.facebook.com/share/1FwvsPYGci/",
+  instagram:
+    "https://www.instagram.com/shridevramjankigaushala?igsh=bjB2Y3pueG45dWlu",
+  youtube: "https://www.youtube.com/@ShriDevRamJankiGaushala",
+  whatsapp: "https://wa.me/919179780705",
+};
+
+export const statsDetails = {
+  cows: "300+",
+  yoe: new Date().getFullYear() - 2015,
+  teamMembers: "20+",
+  shelters: "1",
+  awards: "5+",
+};

@@ -91,4 +91,5 @@
 
 html {
   font-family: "Poppins", system-ui, sans-serif;
+  scroll-behavior: smooth;
 }

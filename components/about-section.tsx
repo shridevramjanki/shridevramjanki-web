@@ -1,21 +1,30 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Calendar, Users, Award, MapPin, Phone, Mail, ArrowRight } from "lucide-react"
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import {
+  Calendar,
+  Users,
+  Award,
+  MapPin,
+  Phone,
+  Mail,
+  ArrowRight,
+} from "lucide-react";
+import { contactDetails, statsDetails } from "@/content";
 
 export default function AboutSection() {
-  const establishmentYear = 2015
-  const currentYear = new Date().getFullYear()
-  const yearsActive = currentYear - establishmentYear
+  const establishmentYear = 2015;
+  const currentYear = new Date().getFullYear();
+  const yearsActive = currentYear - establishmentYear;
 
   const teamMembers = [
     {
       id: 1,
       name: "पंडित महंत बालक दास",
       role: "संस्थापक एवं अध्यक्ष",
-      image: "/images/team/founder.jpg",
+      image: "/images/team/founder.png",
     },
     {
       id: 2,
@@ -35,37 +44,37 @@ export default function AboutSection() {
       role: "कार्यकारी निदेशक",
       image: "/images/team/director.jpg",
     },
-  ]
+  ];
 
   const stats = [
     {
       id: 1,
-      value: "45+",
+      value: statsDetails.teamMembers,
       label: "कर्मचारी",
       icon: <Users className="h-5 w-5" />,
     },
     {
       id: 2,
-      value: yearsActive.toString(),
+      value: statsDetails.yoe,
       label: "वर्षों का अनुभव",
       icon: <Calendar className="h-5 w-5" />,
     },
     {
       id: 3,
-      value: "24",
+      value: statsDetails.shelters,
       label: "गौशालाएँ",
       icon: <MapPin className="h-5 w-5" />,
     },
     {
       id: 4,
-      value: "12",
+      value: statsDetails.awards,
       label: "पुरस्कार",
       icon: <Award className="h-5 w-5" />,
     },
-  ]
+  ];
 
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-orange-50 to-white py-16 md:py-20">
+    <section id="about-us-section" className="relative w-full overflow-hidden bg-gradient-to-br from-orange-50 to-white py-16 md:py-20">
       {/* Decorative Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-green-100 opacity-40"></div>
@@ -97,7 +106,8 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl"
           >
-            <span className="text-orange-600">गौ सेवा</span> के {yearsActive} वर्ष
+            <span className="text-orange-600">गौ सेवा</span> के {yearsActive}{" "}
+            वर्ष
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -106,7 +116,8 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="mx-auto mt-4 max-w-2xl text-gray-600"
           >
-            हमारी यात्रा, हमारा मिशन और हमारी टीम के बारे में जानें। हम {establishmentYear} से गौ माता की सेवा में समर्पित हैं।
+            हमारी यात्रा, हमारा मिशन और हमारी टीम के बारे में जानें। हम{" "}
+            {establishmentYear} से गौ माता की सेवा में समर्पित हैं।
           </motion.p>
         </div>
 
@@ -120,14 +131,16 @@ export default function AboutSection() {
             className="relative overflow-hidden rounded-2xl"
           >
             <Image
-              src="/images/about/goshala-history.jpg"
+              src="/images//cow-2.jpeg"
               alt="गौशाला का इतिहास"
               width={600}
               height={400}
               className="h-full w-full rounded-2xl object-cover"
             />
             <div className="absolute bottom-4 right-4 rounded-lg bg-white/90 p-2 backdrop-blur-sm">
-              <p className="text-sm font-medium text-gray-900">स्थापना: {establishmentYear}</p>
+              <p className="text-sm font-medium text-gray-900">
+                स्थापना: {establishmentYear}
+              </p>
             </div>
           </motion.div>
 
@@ -141,26 +154,46 @@ export default function AboutSection() {
             <h3 className="text-2xl font-bold text-gray-900">हमारी कहानी</h3>
             <div className="space-y-4 text-gray-600">
               <p>
-                गौ सेवा ट्रस्ट की स्थापना {establishmentYear} में पंडित रामेश्वर शास्त्री जी द्वारा की गई थी। उन्होंने देखा कि कैसे आवारा
-                और बेसहारा गौ माताएँ सड़कों पर भटक रही थीं और उन्हें उचित देखभाल नहीं मिल रही थी।
+                श्री देव राम जानकी गौशाला की स्थापना {establishmentYear} में
+                पंडित महंत बालक दास जी द्वारा की गई थी। उनका हृदय उन बेसहारा और
+                पीड़ित गौ माताओं की वेदना से व्याकुल हो उठा जो सड़कों पर भटकने
+                को मजबूर थीं, जिन्हें न भोजन मिल रहा था, न ही सुरक्षित आश्रय। इस
+                करुण स्थिति को देखकर उन्होंने एक संकल्प लिया — गौ सेवा को अपना
+                जीवन उद्देश्य बनाने का।
               </p>
               <p>
-                एक छोटी सी गौशाला से शुरुआत करके, आज हमारे पास पूरे भारत में 24 गौशालाएँ हैं, जहाँ 1,200 से अधिक गौ माताओं को आश्रय दिया
-                गया है। हमारा मिशन न केवल गौ माताओं की रक्षा करना है, बल्कि उनके माध्यम से प्राचीन भारतीय संस्कृति और परंपराओं को भी
-                संरक्षित करना है।
+                हम मानते हैं कि "गो सेवा ही सबसे बड़ी सेवा है", क्योंकि गौ माता
+                न केवल हमारी संस्कृति और धर्म का प्रतीक हैं, बल्कि संपूर्ण
+                सृष्टि के कल्याण का आधार भी हैं। हमारी भारतीय परंपरा में गाय को
+                माँ का स्थान दिया गया है — जो बिना किसी अपेक्षा के हमें देती है:
+                दूध, खाद, औषधीय पंचगव्य और आत्मिक शांति।
               </p>
               <p>
-                हमारी गौशालाओं में गौ माताओं को आधुनिक सुविधाओं के साथ पारंपरिक देखभाल प्रदान की जाती है। हम गौ आधारित खेती, पंचगव्य
-                उत्पादों और गौ संरक्षण के क्षेत्र में अनुसंधान भी करते हैं।
+                एक छोटी सी शुरुआत से शुरू होकर, आज हमारी एकमात्र गौशाला में 300
+                से अधिक गौ माताओं को स्नेहपूर्वक आश्रय, देखभाल और सुरक्षा प्रदान
+                की जा रही है। यहाँ हर एक गाय को परिवार के सदस्य की तरह माना जाता
+                है — बीमार होने पर उपचार, वृद्ध होने पर सेवा, और हर दिन स्नेह से
+                भरा व्यवहार।
+              </p>
+              <p>
+                हमारा उद्देश्य केवल गौ माता की रक्षा तक सीमित नहीं है। हम उनके
+                माध्यम से भारतीय संस्कृति, सनातन परंपराओं और करुणा के मूल
+                मूल्यों को भी जीवित रखना चाहते हैं। हमारे कार्यों के पीछे यही
+                भावना है — सद्भाव, सेवा और संस्कृति की रक्षा।
+              </p>
+              <p>
+                श्री देव राम जानकी गौशाला न केवल एक स्थान है, बल्कि यह एक आंदोलन
+                है — उन सभी के लिए जो यह मानते हैं कि गो सेवा, वास्तव में लोक
+                सेवा और आत्म सेवा है।
               </p>
             </div>
 
-            <div className="pt-4">
+            {/* <div className="pt-4">
               <Button className="group bg-orange-600 hover:bg-orange-700">
                 और जानें
                 <ArrowRight className="ml-2 h-4 w-0 transition-all group-hover:w-4" />
               </Button>
-            </div>
+            </div> */}
           </motion.div>
         </div>
 
@@ -173,14 +206,22 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 p-6 shadow-md"
           >
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-200">
-              <Image src="/images/icon-mission.png" alt="Mission Icon" width={32} height={32} className="h-6 w-6" />
-            </div>
+            {/* <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-200">
+              <Image
+                src="/images/icon-mission.png"
+                alt="Mission Icon"
+                width={32}
+                height={32}
+                className="h-6 w-6"
+              />
+            </div> */}
             <h3 className="mb-3 text-xl font-bold text-gray-900">हमारा मिशन</h3>
             <p className="text-gray-700">
-              हमारा मिशन गौ माता की रक्षा और सेवा करना है, जो हमारी संस्कृति का अभिन्न अंग हैं। हम गौ माताओं को सुरक्षित आश्रय, पौष्टिक
-              आहार और उचित चिकित्सा देखभाल प्रदान करते हैं। साथ ही, हम लोगों को गौ संरक्षण के महत्व के बारे में जागरूक करते हैं और गौ
-              आधारित उत्पादों को बढ़ावा देते हैं।
+              हमारा मिशन गौ माता की रक्षा और सेवा करना है, जो हमारी संस्कृति का
+              अभिन्न अंग हैं। हम गौ माताओं को सुरक्षित आश्रय, पौष्टिक आहार और
+              उचित चिकित्सा देखभाल प्रदान करते हैं। साथ ही, हम लोगों को गौ
+              संरक्षण के महत्व के बारे में जागरूक करते हैं और गौ आधारित उत्पादों
+              को बढ़ावा देते हैं।
             </p>
           </motion.div>
 
@@ -191,14 +232,24 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="rounded-xl bg-gradient-to-br from-green-50 to-green-100 p-6 shadow-md"
           >
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-200">
-              <Image src="/images/icon-vision.png" alt="Vision Icon" width={32} height={32} className="h-6 w-6" />
-            </div>
-            <h3 className="mb-3 text-xl font-bold text-gray-900">हमारा विज़न</h3>
+            {/* <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-200">
+              <Image
+                src="/images/icon-vision.png"
+                alt="Vision Icon"
+                width={32}
+                height={32}
+                className="h-6 w-6"
+              />
+            </div> */}
+            <h3 className="mb-3 text-xl font-bold text-gray-900">
+              हमारा विज़न
+            </h3>
             <p className="text-gray-700">
-              हमारा विज़न एक ऐसा समाज बनाना है जहां हर गौ माता को सम्मान और देखभाल मिले। हम चाहते हैं कि भारत में कोई भी गौ माता
-              बेसहारा न हो और सभी को उचित आश्रय मिले। हम गौ संरक्षण को एक राष्ट्रीय आंदोलन बनाना चाहते हैं और गौ आधारित अर्थव्यवस्था
-              को बढ़ावा देना चाहते हैं।
+              हमारा विज़न एक ऐसा समाज बनाना है जहां हर गौ माता को सम्मान और
+              देखभाल मिले। हम चाहते हैं कि भारत में कोई भी गौ माता बेसहारा न हो
+              और सभी को उचित आश्रय मिले। हम गौ संरक्षण को एक राष्ट्रीय आंदोलन
+              बनाना चाहते हैं और गौ आधारित अर्थव्यवस्था को बढ़ावा देना चाहते
+              हैं।
             </p>
           </motion.div>
         </div>
@@ -229,7 +280,9 @@ export default function AboutSection() {
         <div className="mb-16">
           <div className="mb-8 text-center">
             <h3 className="text-2xl font-bold text-gray-900">हमारी टीम</h3>
-            <p className="mt-2 text-gray-600">हमारे समर्पित टीम सदस्य जो गौ सेवा के लिए प्रतिबद्ध हैं</p>
+            <p className="mt-2 text-gray-600">
+              हमारे समर्पित टीम सदस्य जो गौ सेवा के लिए प्रतिबद्ध हैं
+            </p>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
@@ -248,22 +301,27 @@ export default function AboutSection() {
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-contain transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-4">
-                  <h4 className="text-lg font-semibold text-gray-900">{member.name}</h4>
+                  <h4 className="text-lg font-semibold text-gray-900">
+                    {member.name}
+                  </h4>
                   <p className="text-sm text-gray-600">{member.role}</p>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="mt-8 text-center">
-            <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50">
+          {/* <div className="mt-8 text-center">
+            <Button
+              variant="outline"
+              className="border-orange-600 text-orange-600 hover:bg-orange-50"
+            >
               पूरी टीम देखें
             </Button>
-          </div>
+          </div> */}
         </div>
 
         {/* Contact */}
@@ -278,25 +336,30 @@ export default function AboutSection() {
             <div>
               <h3 className="mb-4 text-2xl font-bold">हमसे संपर्क करें</h3>
               <p className="mb-6 text-orange-100">
-                गौ सेवा या दान के बारे में अधिक जानकारी के लिए हमसे संपर्क करें। हमारी टीम आपकी सहायता के लिए तत्पर है।
+                गौ सेवा या दान के बारे में अधिक जानकारी के लिए हमसे संपर्क करें।
+                हमारी टीम आपकी सहायता के लिए तत्पर है।
               </p>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 flex-shrink-0" />
-                  <span>गौ सेवा ट्रस्ट, 123 गौशाला मार्ग, वृंदावन, मथुरा, उत्तर प्रदेश - 281121</span>
+                  <span>{contactDetails.address} </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="h-5 w-5 flex-shrink-0" />
-                  <span>+91 98765 43210</span>
+                  <span>{contactDetails.phone}</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="h-5 w-5 flex-shrink-0" />
-                  <span>info@gauseva.org</span>
+                  <span>{contactDetails.email}</span>
                 </li>
               </ul>
             </div>
             <div className="flex items-center justify-center">
-              <Button size="lg" variant="outline" className="border-white bg-white/10 hover:bg-white/20">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white bg-white/10 hover:bg-white/20"
+              >
                 संपर्क फॉर्म
               </Button>
             </div>
@@ -304,5 +367,5 @@ export default function AboutSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

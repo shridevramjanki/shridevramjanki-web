@@ -45,7 +45,10 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="relative w-full overflow-hidden min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 py-12 md:py-16 lg:py-20">
+    <section
+      id="home-section"
+      className="relative w-full overflow-hidden min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 py-12 md:py-16 lg:py-20"
+    >
       {/* Decorative Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute -top-20 -left-20 h-64 w-64 rounded-full bg-orange-100 opacity-60"></div>
