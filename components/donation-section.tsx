@@ -42,7 +42,7 @@ const donationOptions = [
     benefits: ["एक गौ माता का एक दिन का चारा", "दवाई और चिकित्सा", "आश्रय और देखभाल"],
     icon: <Heart className="h-5 w-5" />,
     popular: false,
-    image: "/images/donation/daily.jpg",
+    image: "/images/cow-1.jpeg",
   },
   {
     id: "monthly",
@@ -57,7 +57,7 @@ const donationOptions = [
     ],
     icon: <Calendar className="h-5 w-5" />,
     popular: true,
-    image: "/images/donation/monthly.jpg",
+    image: "/images/cow-2.jpeg",
   },
   {
     id: "yearly",
@@ -73,7 +73,7 @@ const donationOptions = [
     ],
     icon: <Award className="h-5 w-5" />,
     popular: false,
-    image: "/images/donation/yearly.jpg",
+    image: "/images/cow-3.jpeg",
   },
 ]
 
@@ -304,11 +304,11 @@ export default function DonationSection() {
         <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-orange-100 opacity-40"></div>
         <div className="absolute top-20 -left-20 h-64 w-64 rounded-full bg-green-100 opacity-40"></div>
         <Image
-          src="/images/mandala-pattern.png"
+          src="/images/mandala.png"
           alt="Decorative Pattern"
           width={200}
           height={200}
-          className="absolute top-10 right-10 opacity-10"
+          className="absolute top-10 right-10 opacity-50 object-contain"
         />
       </div>
 

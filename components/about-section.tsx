@@ -30,19 +30,19 @@ export default function AboutSection() {
       id: 2,
       name: "डॉ. अनिल वर्मा",
       role: "पशु चिकित्सक",
-      image: "/images/team/doctor.jpg",
+      image: "/images/team/founder.png",
     },
     {
       id: 3,
       name: "श्रीमती सुनीता देवी",
       role: "गौशाला प्रबंधक",
-      image: "/images/team/manager.jpg",
+      image: "/images/team/founder.png",
     },
     {
       id: 4,
       name: "श्री मोहन सिंह",
       role: "कार्यकारी निदेशक",
-      image: "/images/team/director.jpg",
+      image: "/images/team/founder.png",
     },
   ];
 
@@ -74,7 +74,10 @@ export default function AboutSection() {
   ];
 
   return (
-    <section id="about-us-section" className="relative w-full overflow-hidden bg-gradient-to-br from-orange-50 to-white py-16 md:py-20">
+    <section
+      id="about-us-section"
+      className="relative w-full overflow-hidden bg-gradient-to-br from-orange-50 to-white py-16 md:py-20"
+    >
       {/* Decorative Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-green-100 opacity-40"></div>

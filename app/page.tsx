@@ -13,9 +13,9 @@ export default function Home() {
       <main>
         <HeroSection />
         <AboutSection />
-        {/* <GallerySection /> */}
-        {/* <DonationSection /> */}
-        {/* <PujaDonationSection /> */}
+        <GallerySection />
+        <DonationSection />
+        <PujaDonationSection />
       </main>
       <Footer />
     </>

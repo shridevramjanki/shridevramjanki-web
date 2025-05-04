@@ -1,77 +1,82 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { motion } from "framer-motion"
-import { X, Filter, ChevronDown } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { useState } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { X, Filter, ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const galleryImages = [
   {
     id: 1,
-    src: "/images/gallery/cow-1.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "गौशाला में गौ माता",
     category: "cows",
     featured: true,
   },
   {
     id: 2,
-    src: "/images/gallery/facility-1.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "आधुनिक गौशाला",
     category: "facilities",
   },
   {
     id: 3,
-    src: "/images/gallery/volunteer-1.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "स्वयंसेवक गौ सेवा करते हुए",
     category: "volunteers",
   },
   {
     id: 4,
-    src: "/images/gallery/cow-2.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "गौ माता और बछड़ा",
     category: "cows",
     featured: true,
   },
   {
     id: 5,
-    src: "/images/gallery/event-1.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "गौ पूजा समारोह",
     category: "events",
   },
   {
     id: 6,
-    src: "/images/gallery/facility-2.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "चारा भंडार",
     category: "facilities",
   },
   {
     id: 7,
-    src: "/images/gallery/cow-3.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "गौ माता का समूह",
     category: "cows",
   },
   {
     id: 8,
-    src: "/images/gallery/volunteer-2.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "गौ चिकित्सा शिविर",
     category: "volunteers",
   },
   {
     id: 9,
-    src: "/images/gallery/event-2.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "गौ दान समारोह",
     category: "events",
   },
   {
     id: 10,
-    src: "/images/gallery/cow-4.jpg",
+    src: "/images/gallery/cow-1.jpeg",
     alt: "नवजात बछड़ा",
     category: "cows",
   },
-]
+];
 
 const categories = [
   { id: "all", name: "सभी" },
@@ -79,14 +84,16 @@ const categories = [
   { id: "facilities", name: "गौशाला" },
   { id: "volunteers", name: "स्वयंसेवक" },
   { id: "events", name: "कार्यक्रम" },
-]
+];
 
 export default function GallerySection() {
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const filteredImages =
-    selectedCategory === "all" ? galleryImages : galleryImages.filter((img) => img.category === selectedCategory)
+    selectedCategory === "all"
+      ? galleryImages
+      : galleryImages.filter((img) => img.category === selectedCategory);
 
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-br from-white to-orange-50 py-16 md:py-20">
@@ -130,8 +137,9 @@ export default function GallerySection() {
             viewport={{ once: true }}
             className="mx-auto mt-4 max-w-2xl text-gray-600"
           >
-            हमारी गौशाला में गौ माताओं की देखभाल, सुविधाओं और विभिन्न गतिविधियों की तस्वीरें देखें। आपके दान से इन पवित्र प्राणियों का जीवन
-            बदल रहा है।
+            हमारी गौशाला में गौ माताओं की देखभाल, सुविधाओं और विभिन्न गतिविधियों
+            की तस्वीरें देखें। आपके दान से इन पवित्र प्राणियों का जीवन बदल रहा
+            है।
           </motion.p>
         </div>
 
@@ -141,7 +149,9 @@ export default function GallerySection() {
             {categories.map((category) => (
               <Button
                 key={category.id}
-                variant={selectedCategory === category.id ? "default" : "outline"}
+                variant={
+                  selectedCategory === category.id ? "default" : "outline"
+                }
                 className={`rounded-full ${
                   selectedCategory === category.id
                     ? "bg-orange-600 text-white hover:bg-orange-700"
@@ -158,9 +168,15 @@ export default function GallerySection() {
           <div className="md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2 border-orange-200">
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-2 border-orange-200"
+                >
                   <Filter className="h-4 w-4" />
-                  <span>फ़िल्टर: {categories.find((c) => c.id === selectedCategory)?.name}</span>
+                  <span>
+                    फ़िल्टर:{" "}
+                    {categories.find((c) => c.id === selectedCategory)?.name}
+                  </span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -169,7 +185,11 @@ export default function GallerySection() {
                   <DropdownMenuItem
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={selectedCategory === category.id ? "bg-orange-50 font-medium text-orange-600" : ""}
+                    className={
+                      selectedCategory === category.id
+                        ? "bg-orange-50 font-medium text-orange-600"
+                        : ""
+                    }
                   >
                     {category.name}
                   </DropdownMenuItem>
@@ -178,13 +198,13 @@ export default function GallerySection() {
             </DropdownMenu>
           </div>
 
-          <Button
+          {/* <Button
             variant="link"
             className="text-orange-600 hover:text-orange-700"
             onClick={() => setSelectedCategory("all")}
           >
             सभी देखें
-          </Button>
+          </Button> */}
         </div>
 
         {/* Gallery Grid */}
@@ -198,7 +218,7 @@ export default function GallerySection() {
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
               className={`group cursor-pointer overflow-hidden rounded-xl bg-white shadow-md ${
-                image.featured ? "sm:col-span-2" : ""
+                image.featured ? "" : ""
               }`}
               onClick={() => setSelectedImage(image.id)}
             >
@@ -218,15 +238,20 @@ export default function GallerySection() {
           ))}
         </div>
 
-        <div className="mt-10 text-center">
-          <Button className="bg-orange-600 hover:bg-orange-700">और तस्वीरें देखें</Button>
-        </div>
+        {/* <div className="mt-10 text-center">
+          <Button className="bg-orange-600 hover:bg-orange-700">
+            और तस्वीरें देखें
+          </Button>
+        </div> */}
 
         {/* Lightbox Modal */}
-        <Dialog open={selectedImage !== null} onOpenChange={(open) => !open && setSelectedImage(null)}>
+        <Dialog
+          open={selectedImage !== null}
+          onOpenChange={(open) => !open && setSelectedImage(null)}
+        >
           <DialogContent className="max-w-4xl border-none bg-transparent p-0 shadow-none">
             {selectedImage && (
-              <div className="relative overflow-hidden rounded-lg bg-white shadow-2xl">
+              <div className="relative overflow-hidden rounded-lg  shadow-2xl">
                 <div className="absolute right-2 top-2 z-10">
                   <Button
                     variant="ghost"
@@ -239,14 +264,20 @@ export default function GallerySection() {
                 </div>
                 <div className="relative aspect-[16/9] w-full">
                   <Image
-                    src={galleryImages.find((img) => img.id === selectedImage)?.src || ""}
-                    alt={galleryImages.find((img) => img.id === selectedImage)?.alt || ""}
+                    src={
+                      galleryImages.find((img) => img.id === selectedImage)
+                        ?.src || ""
+                    }
+                    alt={
+                      galleryImages.find((img) => img.id === selectedImage)
+                        ?.alt || ""
+                    }
                     fill
                     className="object-contain"
                   />
                 </div>
-                <div className="bg-white p-4">
-                  <p className="text-lg font-medium text-gray-900">
+                <div className=" p-4">
+                  <p className="text-lg font-medium text-white text-center">
                     {galleryImages.find((img) => img.id === selectedImage)?.alt}
                   </p>
                 </div>
@@ -256,5 +287,5 @@ export default function GallerySection() {
         </Dialog>
       </div>
     </section>
-  )
+  );
 }
