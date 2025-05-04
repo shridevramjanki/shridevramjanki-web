@@ -1,0 +1,308 @@
+"use client"
+
+import Image from "next/image"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { Calendar, Users, Award, MapPin, Phone, Mail, ArrowRight } from "lucide-react"
+
+export default function AboutSection() {
+  const establishmentYear = 2015
+  const currentYear = new Date().getFullYear()
+  const yearsActive = currentYear - establishmentYear
+
+  const teamMembers = [
+    {
+      id: 1,
+      name: "पंडित महंत बालक दास",
+      role: "संस्थापक एवं अध्यक्ष",
+      image: "/images/team/founder.jpg",
+    },
+    {
+      id: 2,
+      name: "डॉ. अनिल वर्मा",
+      role: "पशु चिकित्सक",
+      image: "/images/team/doctor.jpg",
+    },
+    {
+      id: 3,
+      name: "श्रीमती सुनीता देवी",
+      role: "गौशाला प्रबंधक",
+      image: "/images/team/manager.jpg",
+    },
+    {
+      id: 4,
+      name: "श्री मोहन सिंह",
+      role: "कार्यकारी निदेशक",
+      image: "/images/team/director.jpg",
+    },
+  ]
+
+  const stats = [
+    {
+      id: 1,
+      value: "45+",
+      label: "कर्मचारी",
+      icon: <Users className="h-5 w-5" />,
+    },
+    {
+      id: 2,
+      value: yearsActive.toString(),
+      label: "वर्षों का अनुभव",
+      icon: <Calendar className="h-5 w-5" />,
+    },
+    {
+      id: 3,
+      value: "24",
+      label: "गौशालाएँ",
+      icon: <MapPin className="h-5 w-5" />,
+    },
+    {
+      id: 4,
+      value: "12",
+      label: "पुरस्कार",
+      icon: <Award className="h-5 w-5" />,
+    },
+  ]
+
+  return (
+    <section className="relative w-full overflow-hidden bg-gradient-to-br from-orange-50 to-white py-16 md:py-20">
+      {/* Decorative Elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-green-100 opacity-40"></div>
+        <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-orange-100 opacity-40"></div>
+        <Image
+          src="/images/mandala-pattern.png"
+          alt="Decorative Pattern"
+          width={200}
+          height={200}
+          className="absolute bottom-10 left-10 opacity-10"
+        />
+      </div>
+
+      <div className="container relative z-10 mx-auto px-4 md:px-6">
+        <div className="mb-12 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 rounded-full bg-orange-100 px-3 py-1 text-sm font-medium text-orange-700"
+          >
+            <span>हमारी कहानी</span>
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl"
+          >
+            <span className="text-orange-600">गौ सेवा</span> के {yearsActive} वर्ष
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="mx-auto mt-4 max-w-2xl text-gray-600"
+          >
+            हमारी यात्रा, हमारा मिशन और हमारी टीम के बारे में जानें। हम {establishmentYear} से गौ माता की सेवा में समर्पित हैं।
+          </motion.p>
+        </div>
+
+        {/* Our Story */}
+        <div className="mb-16 grid gap-8 md:grid-cols-2 md:gap-12">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="relative overflow-hidden rounded-2xl"
+          >
+            <Image
+              src="/images/about/goshala-history.jpg"
+              alt="गौशाला का इतिहास"
+              width={600}
+              height={400}
+              className="h-full w-full rounded-2xl object-cover"
+            />
+            <div className="absolute bottom-4 right-4 rounded-lg bg-white/90 p-2 backdrop-blur-sm">
+              <p className="text-sm font-medium text-gray-900">स्थापना: {establishmentYear}</p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="flex flex-col justify-center space-y-4"
+          >
+            <h3 className="text-2xl font-bold text-gray-900">हमारी कहानी</h3>
+            <div className="space-y-4 text-gray-600">
+              <p>
+                गौ सेवा ट्रस्ट की स्थापना {establishmentYear} में पंडित रामेश्वर शास्त्री जी द्वारा की गई थी। उन्होंने देखा कि कैसे आवारा
+                और बेसहारा गौ माताएँ सड़कों पर भटक रही थीं और उन्हें उचित देखभाल नहीं मिल रही थी।
+              </p>
+              <p>
+                एक छोटी सी गौशाला से शुरुआत करके, आज हमारे पास पूरे भारत में 24 गौशालाएँ हैं, जहाँ 1,200 से अधिक गौ माताओं को आश्रय दिया
+                गया है। हमारा मिशन न केवल गौ माताओं की रक्षा करना है, बल्कि उनके माध्यम से प्राचीन भारतीय संस्कृति और परंपराओं को भी
+                संरक्षित करना है।
+              </p>
+              <p>
+                हमारी गौशालाओं में गौ माताओं को आधुनिक सुविधाओं के साथ पारंपरिक देखभाल प्रदान की जाती है। हम गौ आधारित खेती, पंचगव्य
+                उत्पादों और गौ संरक्षण के क्षेत्र में अनुसंधान भी करते हैं।
+              </p>
+            </div>
+
+            <div className="pt-4">
+              <Button className="group bg-orange-600 hover:bg-orange-700">
+                और जानें
+                <ArrowRight className="ml-2 h-4 w-0 transition-all group-hover:w-4" />
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Mission & Vision */}
+        <div className="mb-16 grid gap-6 md:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 p-6 shadow-md"
+          >
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-200">
+              <Image src="/images/icon-mission.png" alt="Mission Icon" width={32} height={32} className="h-6 w-6" />
+            </div>
+            <h3 className="mb-3 text-xl font-bold text-gray-900">हमारा मिशन</h3>
+            <p className="text-gray-700">
+              हमारा मिशन गौ माता की रक्षा और सेवा करना है, जो हमारी संस्कृति का अभिन्न अंग हैं। हम गौ माताओं को सुरक्षित आश्रय, पौष्टिक
+              आहार और उचित चिकित्सा देखभाल प्रदान करते हैं। साथ ही, हम लोगों को गौ संरक्षण के महत्व के बारे में जागरूक करते हैं और गौ
+              आधारित उत्पादों को बढ़ावा देते हैं।
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="rounded-xl bg-gradient-to-br from-green-50 to-green-100 p-6 shadow-md"
+          >
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-200">
+              <Image src="/images/icon-vision.png" alt="Vision Icon" width={32} height={32} className="h-6 w-6" />
+            </div>
+            <h3 className="mb-3 text-xl font-bold text-gray-900">हमारा विज़न</h3>
+            <p className="text-gray-700">
+              हमारा विज़न एक ऐसा समाज बनाना है जहां हर गौ माता को सम्मान और देखभाल मिले। हम चाहते हैं कि भारत में कोई भी गौ माता
+              बेसहारा न हो और सभी को उचित आश्रय मिले। हम गौ संरक्षण को एक राष्ट्रीय आंदोलन बनाना चाहते हैं और गौ आधारित अर्थव्यवस्था
+              को बढ़ावा देना चाहते हैं।
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="mb-16 grid grid-cols-2 gap-4 md:grid-cols-4"
+        >
+          {stats.map((stat) => (
+            <div
+              key={stat.id}
+              className="rounded-xl bg-white p-6 text-center shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+                {stat.icon}
+              </div>
+              <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+              <p className="text-sm text-gray-500">{stat.label}</p>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Team */}
+        <div className="mb-16">
+          <div className="mb-8 text-center">
+            <h3 className="text-2xl font-bold text-gray-900">हमारी टीम</h3>
+            <p className="mt-2 text-gray-600">हमारे समर्पित टीम सदस्य जो गौ सेवा के लिए प्रतिबद्ध हैं</p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+            {teamMembers.map((member, index) => (
+              <motion.div
+                key={member.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+                className="group overflow-hidden rounded-xl bg-white text-center shadow-md transition-all duration-300 hover:shadow-lg"
+              >
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={member.image || "/placeholder.svg"}
+                    alt={member.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4">
+                  <h4 className="text-lg font-semibold text-gray-900">{member.name}</h4>
+                  <p className="text-sm text-gray-600">{member.role}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50">
+              पूरी टीम देखें
+            </Button>
+          </div>
+        </div>
+
+        {/* Contact */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 p-8 text-white shadow-lg"
+        >
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <h3 className="mb-4 text-2xl font-bold">हमसे संपर्क करें</h3>
+              <p className="mb-6 text-orange-100">
+                गौ सेवा या दान के बारे में अधिक जानकारी के लिए हमसे संपर्क करें। हमारी टीम आपकी सहायता के लिए तत्पर है।
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3">
+                  <MapPin className="h-5 w-5 flex-shrink-0" />
+                  <span>गौ सेवा ट्रस्ट, 123 गौशाला मार्ग, वृंदावन, मथुरा, उत्तर प्रदेश - 281121</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Phone className="h-5 w-5 flex-shrink-0" />
+                  <span>+91 98765 43210</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Mail className="h-5 w-5 flex-shrink-0" />
+                  <span>info@gauseva.org</span>
+                </li>
+              </ul>
+            </div>
+            <div className="flex items-center justify-center">
+              <Button size="lg" variant="outline" className="border-white bg-white/10 hover:bg-white/20">
+                संपर्क फॉर्म
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
