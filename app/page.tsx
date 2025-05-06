@@ -6,6 +6,7 @@ import DonationSection from "@/components/donation-section";
 import PujaDonationSection from "@/components/puja-donation";
 import Footer from "@/components/footer";
 import ShelterCostsSection from "@/components/shelter-cost";
+import DulaDaanSection from "@/components/tula-dan";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <GallerySection />
         <DonationSection />
         <PujaDonationSection />
+        <DulaDaanSection />
         <ShelterCostsSection />
       </main>
       <Footer />
