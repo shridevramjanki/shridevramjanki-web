@@ -1,10 +1,11 @@
-import Navbar from "@/components/navbar"
-import HeroSection from "@/components/hero-section"
-import AboutSection from "@/components/about-section"
-import GallerySection from "@/components/gallery-section"
-import DonationSection from "@/components/donation-section"
-import PujaDonationSection from "@/components/puja-donation"
-import Footer from "@/components/footer"
+import Navbar from "@/components/navbar";
+import HeroSection from "@/components/hero-section";
+import AboutSection from "@/components/about-section";
+import GallerySection from "@/components/gallery-section";
+import DonationSection from "@/components/donation-section";
+import PujaDonationSection from "@/components/puja-donation";
+import Footer from "@/components/footer";
+import ShelterCostsSection from "@/components/shelter-cost";
 
 export default function Home() {
   return (
@@ -16,8 +17,9 @@ export default function Home() {
         <GallerySection />
         <DonationSection />
         <PujaDonationSection />
+        <ShelterCostsSection />
       </main>
       <Footer />
     </>
-  )
+  );
 }

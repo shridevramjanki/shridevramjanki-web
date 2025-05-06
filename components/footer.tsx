@@ -119,7 +119,7 @@ export default function Footer() {
               </li> */}
               <li>
                 <Link
-                  href={contactDetails.call}
+                  href={contactDetails.call_ankit}
                   className="text-gray-600 transition-colors hover:text-orange-600"
                 >
                   संपर्क करें
@@ -138,10 +138,16 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 flex-shrink-0 text-orange-600" />
                 <span className="text-gray-600">
-                  <Link href={contactDetails.call}>{contactDetails.phone}</Link>
+                  <Link href={contactDetails.call_ankit}>
+                    {contactDetails.phone_ankit}
+                  </Link>
                   {" , "}
-                  <Link href={contactDetails.call2}>
-                    {contactDetails.phone2}
+                  <Link href={contactDetails.phone_parvesh}>
+                    {contactDetails.phone_parvesh}
+                  </Link>
+                  {" , "}
+                  <Link href={contactDetails.phone_abadh}>
+                    {contactDetails.phone_abadh}
                   </Link>
                 </span>
               </li>

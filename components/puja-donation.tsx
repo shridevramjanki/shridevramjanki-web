@@ -794,13 +794,13 @@ export default function PujaDonationSection() {
                 <p className="mb-4 text-center text-amber-100">
                   किसी भी विशेष अवसर के लिए कस्टम पूजा पैकेज भी उपलब्ध हैं
                 </p>
-                <Link href={contactDetails.call}>
+                <Link href={contactDetails.call_ankit}>
                   <Button
                     variant="outline"
                     className="w-full border-white bg-white/10 text-white hover:bg-white/20"
                     onClick={() => {}}
                   >
-                    हमसे संपर्क करें
+                    संपर्क करें
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>

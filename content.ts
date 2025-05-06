@@ -1,10 +1,16 @@
+const phoneAnkit = "+919179780705";
+const phoneAbadh = "+919691659229";
+const phoneParvesh = "+919753540068";
 export const contactDetails = {
   name: "श्री महंत बालकदास जी महाराज",
   email: "shridevramjanki@gmail.com",
-  phone: "+91 9302930397",
-  phone2: "+919179780705",
-  call: "tel:+919302930397",
-  call2: "tel:+919179780705",
+  phone_parvesh: phoneParvesh,
+  phone_ankit: phoneAnkit,
+  phone_abadh: phoneAbadh,
+  allPhones: `${phoneAnkit}, ${phoneAbadh}, ${phoneParvesh}`,
+  call_ankit: "tel:" + phoneAnkit,
+  call_abadh: "tel:" + phoneAbadh,
+  call_parvesh: "tel:" + phoneParvesh,
   address:
     "श्री देवराम जानकी गौशाला, ग्राम बगदरा,तहसील गाडरवारा, जिला नरसिंहपुर, मध्य प्रदेश – 487551",
   facebook: "https://www.facebook.com/share/1FwvsPYGci/",

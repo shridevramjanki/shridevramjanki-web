@@ -68,7 +68,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-4 md:flex">
           <div className="flex items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 text-xs font-medium text-green-700">
             <Phone className="h-3 w-3" />
-            <span>{contactDetails.phone}</span>
+            <span>{contactDetails.phone_ankit}</span>
           </div>
           <Link href="#donation-section">
             <Button className="bg-orange-600 hover:bg-orange-700">

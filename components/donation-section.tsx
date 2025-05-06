@@ -598,7 +598,7 @@ export default function DonationSection() {
                   setSelectedDonations({});
                   setSelectedSpecific({});
                   // Generate UPI link with amount
-                  const upiLink = `upi://pay?pa=gauseva@ybl&pn=Gau%20Seva%20Trust&am=${directAmount}&cu=INR`;
+                  const upiLink = `upi://pay?9755786633-2@ybl&pn=Shri%20DevRam%20Janki%20Gaushala&am=${directAmount}&cu=INR`;
                   // Open in new tab or handle as needed
                   window.open(upiLink, "_blank");
                 }

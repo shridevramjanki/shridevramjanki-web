@@ -32,6 +32,7 @@ export default function AboutSection() {
       name: "श्री प्रेवेश जी राय",
       role: "कौशाध्यक्ष",
       image: "/images/team/cofounder.png",
+      phone: contactDetails.phone_parvesh,
     },
     {
       id: 3,
@@ -39,12 +40,13 @@ export default function AboutSection() {
       role: "उपाध्यक्ष",
       image: "/images/team/co.png",
     },
-    // {
-    //   id: 4,
-    //   name: "श्री मोहन सिंह",
-    //   role: "वेबसाइट प्रबंधक",
-    //   image: "/images/team/founder.png",
-    // },
+    {
+      id: 4,
+      name: "श्री अंकित सिंह राजपूत",
+      role: "वेबसाइट व्यवस्थापक",
+      image: "/images/team/ankit.png",
+      phone: contactDetails.phone_ankit,
+    },
   ];
 
   const stats = [
@@ -289,7 +291,7 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.id}
@@ -313,6 +315,9 @@ export default function AboutSection() {
                     {member.name}
                   </h4>
                   <p className="text-sm text-gray-600">{member.role}</p>
+                  {member.phone && (
+                    <p className="text-sm text-gray-500">{member.phone}</p>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -350,7 +355,7 @@ export default function AboutSection() {
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="h-5 w-5 flex-shrink-0" />
-                  <span>{contactDetails.phone}</span>
+                  <span>{contactDetails.allPhones}</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="h-5 w-5 flex-shrink-0" />
@@ -359,7 +364,7 @@ export default function AboutSection() {
               </ul>
             </div>
             <div className="flex items-center justify-center">
-              <Link href={contactDetails.call}>
+              <Link href={contactDetails.call_ankit}>
                 <Button
                   size="lg"
                   variant="outline"
