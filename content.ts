@@ -1,6 +1,13 @@
 const phoneAnkit = "+919179780705";
 const phoneAbadh = "+919691659229";
 const phoneParvesh = "+919753540068";
+const bankDetails = {
+  accountName: "श्री देव राम जानकी गौशाला",
+  accountNumber: "3610523573",
+  ifscCode: "CBIN0281027",
+  bankName: "सेंट्रल बैंक ऑफ इंडिया",
+  branch: "गाडरवारा शाखा",
+};
 export const contactDetails = {
   name: "श्री महंत बालकदास जी महाराज",
   email: "shridevramjanki@gmail.com",
@@ -18,6 +25,16 @@ export const contactDetails = {
     "https://www.instagram.com/shridevramjankigaushala?igsh=bjB2Y3pueG45dWlu",
   youtube: "https://www.youtube.com/@ShriDevRamJankiGaushala",
   whatsapp: "https://wa.me/919179780705",
+  bankDetails: bankDetails,
+};
+
+export const paymentDetails = {
+  upi: {
+    id: "gauseva@ybl",
+    name: "गौ सेवा ट्रस्ट",
+    qrCode: "/images/payment/qr-code.png",
+  },
+  bank: bankDetails,
 };
 
 export const statsDetails = {

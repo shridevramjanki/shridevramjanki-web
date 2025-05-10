@@ -190,6 +190,18 @@ export default function Footer() {
                 <span className="font-bold">UPI से दान करें:</span> gauseva@ybl
               </p>
             </div>
+            <div className="mt-4 rounded-lg border border-orange-200 bg-orange-50 p-3">
+              <p className="text-sm font-medium text-orange-800">
+                <span className="font-bold">बैंक विवरण:</span>
+              </p>
+              <ul className="mt-2 space-y-1 text-sm text-orange-800">
+                <li>खाता नाम: {contactDetails.bankDetails.accountName}</li>
+                <li>खाता संख्या: {contactDetails.bankDetails.accountNumber}</li>
+                <li>IFSC कोड: {contactDetails.bankDetails.ifscCode}</li>
+                <li>बैंक: {contactDetails.bankDetails.bankName}</li>
+                <li>शाखा: {contactDetails.bankDetails.branch}</li>
+              </ul>
+            </div>
           </div>
         </div>
 

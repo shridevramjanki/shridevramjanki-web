@@ -14,6 +14,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { toast } from "./ui/use-toast";
+import { paymentDetails } from "@/content";
 
 const PaymentDialog = ({
   showPaymentDialog,
@@ -274,7 +275,7 @@ const PaymentDialog = ({
                   className={`rounded-lg border-2 border-${primaryColor}-200 p-2`}
                 >
                   <Image
-                    src="/images/payment/qr-code.png"
+                    src={paymentDetails.upi.qrCode}
                     alt="Payment QR Code"
                     width={200}
                     height={200}
@@ -292,12 +293,14 @@ const PaymentDialog = ({
                   className={`flex items-center gap-2 rounded-md border bg-${primaryColor}-50 p-2`}
                 >
                   <span className={`flex-1 text-${primaryColor}-800`}>
-                    gauseva@ybl
+                    {paymentDetails.upi.id}
                   </span>
                   <Button
                     size="sm"
                     variant="ghost"
-                    onClick={() => copyToClipboard("gauseva@ybl", "upi")}
+                    onClick={() =>
+                      copyToClipboard(paymentDetails.upi.id, "upi")
+                    }
                     className="h-8 w-8 p-0"
                   >
                     {copiedUPI ? (
@@ -311,7 +314,11 @@ const PaymentDialog = ({
                   variant="outline"
                   className="w-full"
                   onClick={() => {
-                    const upiLink = `upi://pay?pa=gauseva@ybl&pn=Gau%20Seva%20Trust&am=${actualAmount}&cu=INR`;
+                    const upiLink = `upi://pay?pa=${
+                      paymentDetails.upi.id
+                    }&pn=${encodeURIComponent(
+                      paymentDetails.upi.name
+                    )}&am=${actualAmount}&cu=INR`;
                     window.open(upiLink, "_blank");
                   }}
                 >
@@ -330,7 +337,7 @@ const PaymentDialog = ({
                       className="h-8 px-2"
                       onClick={() =>
                         copyToClipboard(
-                          `बैंक: पंजाब नेशनल बैंक\nशाखा: वाराणसी\nखाता संख्या: 123456789012\nIFSC: PUNB0123456\nखाता धारक: श्री देवराम जानकी गौशाला`,
+                          `बैंक: ${paymentDetails.bank.bankName}\nशाखा: ${paymentDetails.bank.branch}\nखाता संख्या: ${paymentDetails.bank.accountNumber}\nIFSC: ${paymentDetails.bank.ifscCode}\nखाता धारक: ${paymentDetails.bank.accountName}`,
                           "account"
                         )
                       }
@@ -346,23 +353,23 @@ const PaymentDialog = ({
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-600">बैंक:</span>
-                      <span>पंजाब नेशनल बैंक</span>
+                      <span>{paymentDetails.bank.bankName}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">शाखा:</span>
-                      <span>वाराणसी</span>
+                      <span>{paymentDetails.bank.branch}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">खाता संख्या:</span>
-                      <span>123456789012</span>
+                      <span>{paymentDetails.bank.accountNumber}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">IFSC:</span>
-                      <span>PUNB0123456</span>
+                      <span>{paymentDetails.bank.ifscCode}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">खाता धारक:</span>
-                      <span>श्री देवराम जानकी गौशाला</span>
+                      <span>{paymentDetails.bank.accountName}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">राशि:</span>
