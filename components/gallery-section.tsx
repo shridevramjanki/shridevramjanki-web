@@ -95,7 +95,7 @@ const galleryImages = [
     category: "cows",
   },
   {
-    id: 5,
+    id: 15,
     src: "/images/gallery/cc4.jpeg",
     alt: "स्वयंसेवक गौ सेवा करते हुए",
     category: "volunteers",

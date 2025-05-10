@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -33,6 +33,8 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import { contactDetails } from "@/content";
+import PaymentDialog from "./payment-dialog";
+import { useDonation } from "@/context/DonationContext";
 
 const pujaOptions = [
   {
@@ -109,20 +111,10 @@ export default function PujaDonationSection() {
     [key: string]: boolean;
   }>({});
   const [showSummaryDialog, setShowSummaryDialog] = useState(false);
-  const [showUserDetailsDialog, setShowUserDetailsDialog] = useState(false);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
-  const [copiedUPI, setCopiedUPI] = useState(false);
-  const [copiedAccount, setCopiedAccount] = useState(false);
-  const [userDetails, setUserDetails] = useState({
-    name: "",
-    address: "",
-    phone: "",
-  });
-  const [formErrors, setFormErrors] = useState({
-    name: false,
-    address: false,
-    phone: false,
-  });
+
+  // Use donation context
+  const { setPujaDonationSelected, setPujaDonationAmount } = useDonation();
 
   const togglePuja = (pujaId: string) => {
     setSelectedPujas((prev) => ({
@@ -160,36 +152,13 @@ export default function PujaDonationSection() {
     return total;
   };
 
-  const handleProceedToUserDetails = () => {
+  const handleProceedToPayment = () => {
     setShowSummaryDialog(false);
-    setShowUserDetailsDialog(true);
-  };
-
-  const handleUserDetailsSubmit = () => {
-    // Validate form
-    const errors = {
-      name: !userDetails.name.trim(),
-      address: !userDetails.address.trim(),
-      phone: !userDetails.phone.trim() || !/^\d{10}$/.test(userDetails.phone),
-    };
-
-    setFormErrors(errors);
-
-    if (Object.values(errors).some((error) => error)) {
-      return; // Don't proceed if there are errors
-    }
-
-    // Close user details dialog and open payment dialog
-    setShowUserDetailsDialog(false);
     setShowPaymentDialog(true);
-
-    // In a real application, you would send an email here
-    // For demo purposes, we'll just show a toast notification
-    sendPujaDetailsEmail();
   };
 
-  const sendPujaDetailsEmail = () => {
-    // Get selected puja details
+  // Generate puja donation details for PaymentDialog
+  const getPujaDonationDetails = () => {
     const selectedPujasList = Object.entries(selectedPujas)
       .filter(([_, selected]) => selected)
       .map(([id]) => {
@@ -206,55 +175,47 @@ export default function PujaDonationSection() {
       })
       .filter(Boolean);
 
-    // Simulate sending an email
-    console.log("Sending puja details email:", {
-      to: "info@gauseva.org",
-      subject: "नई पूजा बुकिंग - " + userDetails.name,
-      body: `
-        यजमान विवरण:
-        नाम: ${userDetails.name}
-        पता: ${userDetails.address}
-        फोन: ${userDetails.phone}
-        
-        पूजा विवरण:
-        ${
-          selectedPujasList.length
-            ? "चयनित पूजा: " + selectedPujasList.join(", ")
-            : ""
-        }
-        ${
-          selectedItemsList.length
-            ? "अतिरिक्त सामग्री: " + selectedItemsList.join(", ")
-            : ""
-        }
-        
-        कुल राशि: ₹${calculateTotal()}
-      `,
-    });
+    let details = "";
 
-    // Show success toast
-    toast({
-      title: "पूजा विवरण भेजा गया",
-      description: "आपकी पूजा बुकिंग का विवरण हमें प्राप्त हो गया है। धन्यवाद!",
-      duration: 5000,
-    });
-  };
-
-  const copyToClipboard = (text: string, type: "upi" | "account") => {
-    navigator.clipboard.writeText(text);
-    if (type === "upi") {
-      setCopiedUPI(true);
-      setTimeout(() => setCopiedUPI(false), 2000);
-    } else {
-      setCopiedAccount(true);
-      setTimeout(() => setCopiedAccount(false), 2000);
+    if (selectedPujasList.length > 0) {
+      details += `चयनित पूजा: ${selectedPujasList.join(", ")}\n`;
     }
+
+    if (selectedItemsList.length > 0) {
+      details += `अतिरिक्त सामग्री: ${selectedItemsList.join(", ")}`;
+    }
+
+    return details;
   };
 
   const totalAmount = calculateTotal();
   const hasSelections =
     Object.values(selectedPujas).some((v) => v) ||
     Object.values(selectedItems).some((v) => v);
+
+  // Update context when selections change
+  useEffect(() => {
+    setPujaDonationSelected(hasSelections);
+    setPujaDonationAmount(totalAmount);
+
+    // Store the puja donation details in local storage for the combined dialog
+    if (hasSelections) {
+      window.localStorage.setItem(
+        "pujaDonationDetails",
+        getPujaDonationDetails()
+      );
+      window.localStorage.setItem("pujaDonationAmount", totalAmount.toString());
+    } else {
+      window.localStorage.removeItem("pujaDonationDetails");
+      window.localStorage.removeItem("pujaDonationAmount");
+    }
+  }, [
+    hasSelections,
+    totalAmount,
+    setPujaDonationSelected,
+    setPujaDonationAmount,
+    getPujaDonationDetails,
+  ]);
 
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-br from-amber-50 to-white py-16 md:py-20 z-50">
@@ -416,33 +377,6 @@ export default function PujaDonationSection() {
           </div>
         </motion.div>
 
-        {/* Fixed Bottom Total Bar */}
-        {hasSelections && (
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.1)]"
-          >
-            <div className="container mx-auto flex flex-col items-center justify-between gap-4 sm:flex-row">
-              <div>
-                <p className="text-sm text-gray-500">कुल राशि</p>
-                <p className="text-2xl font-bold text-amber-600">
-                  ₹{totalAmount}
-                </p>
-              </div>
-              <Button
-                className="w-full bg-amber-600 hover:bg-amber-700 sm:w-auto"
-                size="lg"
-                onClick={() => setShowSummaryDialog(true)}
-              >
-                आगे बढ़ें
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </motion.div>
-        )}
-
         {/* Order Summary Dialog */}
         <Dialog open={showSummaryDialog} onOpenChange={setShowSummaryDialog}>
           <DialogContent className="sm:max-w-md">
@@ -522,135 +456,7 @@ export default function PujaDonationSection() {
                 संशोधित करें
               </Button>
               <Button
-                onClick={handleProceedToUserDetails}
-                className="bg-amber-600 hover:bg-amber-700"
-              >
-                विवरण भरें
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-
-        {/* User Details Dialog */}
-        <Dialog
-          open={showUserDetailsDialog}
-          onOpenChange={setShowUserDetailsDialog}
-        >
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>अपना विवरण भरें</DialogTitle>
-              <DialogDescription>
-                पूजा बुकिंग प्रक्रिया को पूरा करने के लिए कृपया अपना विवरण भरें
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="puja-name" className="text-sm font-medium">
-                  नाम <span className="text-red-500">*</span>
-                </Label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">
-                    <User className="h-4 w-4" />
-                  </span>
-                  <Input
-                    id="puja-name"
-                    value={userDetails.name}
-                    onChange={(e) =>
-                      setUserDetails({ ...userDetails, name: e.target.value })
-                    }
-                    className={`pl-10 ${
-                      formErrors.name
-                        ? "border-red-500 focus-visible:ring-red-500"
-                        : ""
-                    }`}
-                    placeholder="अपना पूरा नाम दर्ज करें"
-                  />
-                </div>
-                {formErrors.name && (
-                  <p className="text-xs text-red-500">नाम आवश्यक है</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="puja-address" className="text-sm font-medium">
-                  पता <span className="text-red-500">*</span>
-                </Label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-3 top-3 flex items-start text-gray-500">
-                    <Home className="h-4 w-4" />
-                  </span>
-                  <Textarea
-                    id="puja-address"
-                    value={userDetails.address}
-                    onChange={(e) =>
-                      setUserDetails({
-                        ...userDetails,
-                        address: e.target.value,
-                      })
-                    }
-                    className={`min-h-[80px] pl-10 ${
-                      formErrors.address
-                        ? "border-red-500 focus-visible:ring-red-500"
-                        : ""
-                    }`}
-                    placeholder="अपना पूरा पता दर्ज करें"
-                  />
-                </div>
-                {formErrors.address && (
-                  <p className="text-xs text-red-500">पता आवश्यक है</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="puja-phone" className="text-sm font-medium">
-                  फोन नंबर <span className="text-red-500">*</span>
-                </Label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">
-                    <PhoneIcon className="h-4 w-4" />
-                  </span>
-                  <Input
-                    id="puja-phone"
-                    type="tel"
-                    value={userDetails.phone}
-                    onChange={(e) =>
-                      setUserDetails({ ...userDetails, phone: e.target.value })
-                    }
-                    className={`pl-10 ${
-                      formErrors.phone
-                        ? "border-red-500 focus-visible:ring-red-500"
-                        : ""
-                    }`}
-                    placeholder="10 अंकों का मोबाइल नंबर"
-                    maxLength={10}
-                  />
-                </div>
-                {formErrors.phone && (
-                  <p className="text-xs text-red-500">
-                    सही फोन नंबर दर्ज करें (10 अंक)
-                  </p>
-                )}
-              </div>
-
-              <div className="rounded-lg bg-amber-50 p-3">
-                <div className="flex items-start gap-2">
-                  <Mail className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
-                  <p className="text-xs text-amber-800">
-                    आपका विवरण और पूजा की जानकारी हमारे द्वारा संग्रहित की जाएगी
-                    और आपको पूजा की पुष्टि भेजने के लिए उपयोग की जाएगी।
-                  </p>
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={() => setShowUserDetailsDialog(false)}
-              >
-                वापस जाएं
-              </Button>
-              <Button
-                onClick={handleUserDetailsSubmit}
+                onClick={handleProceedToPayment}
                 className="bg-amber-600 hover:bg-amber-700"
               >
                 भुगतान करें
@@ -660,94 +466,13 @@ export default function PujaDonationSection() {
         </Dialog>
 
         {/* Payment Dialog */}
-        <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>पूजा दान भुगतान</DialogTitle>
-              <DialogDescription>
-                कृपया निम्न विकल्पों में से किसी एक का उपयोग करके भुगतान करें
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-6 py-4">
-              <div className="flex flex-col items-center justify-center space-y-4">
-                <p className="text-lg font-medium text-amber-600">
-                  ₹{totalAmount}
-                </p>
-                <div className="rounded-lg border-2 border-amber-200 p-2">
-                  <Image
-                    src="/images/payment/qr-code.png"
-                    alt="Payment QR Code"
-                    width={200}
-                    height={200}
-                    className="h-48 w-48 object-contain"
-                  />
-                </div>
-                <p className="text-sm text-gray-500">
-                  QR कोड स्कैन करके भुगतान करें
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="font-medium">या UPI आईडी का उपयोग करें</h4>
-                <div className="flex items-center gap-2 rounded-md border bg-amber-50 p-2">
-                  <span className="flex-1 text-amber-800">gauseva@ybl</span>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => copyToClipboard("gauseva@ybl", "upi")}
-                    className="h-8 w-8 p-0"
-                  >
-                    {copiedUPI ? (
-                      <Check className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <Copy className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="font-medium">या बैंक खाते में भुगतान करें</h4>
-                <div className="rounded-md border bg-gray-50 p-3 text-sm">
-                  <p>
-                    <span className="font-medium">खाता नाम:</span> गौ सेवा
-                    ट्रस्ट
-                  </p>
-                  <p>
-                    <span className="font-medium">खाता संख्या:</span> 1234567890
-                  </p>
-                  <p>
-                    <span className="font-medium">IFSC कोड:</span> SBIN0012345
-                  </p>
-                  <p>
-                    <span className="font-medium">बैंक:</span> भारतीय स्टेट बैंक
-                  </p>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="mt-2 w-full"
-                    onClick={() =>
-                      copyToClipboard(
-                        "गौ सेवा ट्रस्ट, 1234567890, SBIN0012345, भारतीय स्टेट बैंक",
-                        "account"
-                      )
-                    }
-                  >
-                    {copiedAccount ? "कॉपी किया गया ✓" : "बैंक विवरण कॉपी करें"}
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button
-                onClick={() => setShowPaymentDialog(false)}
-                className="bg-green-600 hover:bg-green-700"
-              >
-                संपन्न
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <PaymentDialog
+          showPaymentDialog={showPaymentDialog}
+          setShowPaymentDialog={setShowPaymentDialog}
+          totalAmount={totalAmount}
+          isGreen={false}
+          donationDetails={getPujaDonationDetails()}
+        />
 
         {/* Additional Information */}
         <motion.div

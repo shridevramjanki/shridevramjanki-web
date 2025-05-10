@@ -7,6 +7,7 @@ import PujaDonationSection from "@/components/puja-donation";
 import Footer from "@/components/footer";
 import ShelterCostsSection from "@/components/shelter-cost";
 import DulaDaanSection from "@/components/tula-dan";
+import DonationProviderWrapper from "@/components/donation-provider-wrapper";
 
 export default function Home() {
   return (
@@ -16,8 +17,10 @@ export default function Home() {
         <HeroSection />
         <AboutSection />
         <GallerySection />
-        <DonationSection />
-        <PujaDonationSection />
+        <DonationProviderWrapper>
+          <DonationSection />
+          <PujaDonationSection />
+        </DonationProviderWrapper>
         <DulaDaanSection />
         <ShelterCostsSection />
       </main>

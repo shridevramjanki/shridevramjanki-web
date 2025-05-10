@@ -17,15 +17,21 @@ import {
 import { Slider } from "@/components/ui/slider";
 import Link from "next/link";
 import { contactDetails } from "@/content";
+import PaymentDialog from "./payment-dialog";
 
 export default function DulaDaanSection() {
   const [showInfoDialog, setShowInfoDialog] = useState(false);
-  const [showDonateDialog, setShowDonateDialog] = useState(false);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [weight, setWeight] = useState(60); // Default weight in kg
   const [customRate, setCustomRate] = useState(51); // Default rate per kg in rupees
 
   // Calculate donation amount based on weight and rate
   const donationAmount = weight * customRate;
+
+  // Generate donation details for PaymentDialog
+  const getDonationDetails = () => {
+    return `तुला दान विवरण:\n${weight} किलोग्राम × ₹${customRate} प्रति किलोग्राम`;
+  };
 
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-br from-yellow-50 to-white py-16 md:py-20">
@@ -191,7 +197,7 @@ export default function DulaDaanSection() {
                 <Button
                   className="w-full bg-yellow-600 hover:bg-yellow-700"
                   size="lg"
-                  onClick={() => setShowDonateDialog(true)}
+                  onClick={() => setShowPaymentDialog(true)}
                 >
                   <Heart className="mr-2 h-5 w-5" />
                   तुला दान करें
@@ -239,71 +245,14 @@ export default function DulaDaanSection() {
           </DialogContent>
         </Dialog>
 
-        {/* Donate Dialog */}
-        <Dialog open={showDonateDialog} onOpenChange={setShowDonateDialog}>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>तुला दान</DialogTitle>
-              <DialogDescription>
-                अपने वजन के बराबर गौ सेवा के लिए दान
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-6 py-4">
-              <div className="rounded-lg bg-yellow-50 p-4">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-gray-900">आपका वजन:</span>
-                  <span className="font-bold text-yellow-600">
-                    {weight} किलोग्राम
-                  </span>
-                </div>
-                <div className="mt-2 flex items-center justify-between">
-                  <span className="font-medium text-gray-900">
-                    प्रति किलोग्राम दर:
-                  </span>
-                  <span className="font-bold text-yellow-600">
-                    ₹{customRate}
-                  </span>
-                </div>
-                <div className="mt-4 border-t border-yellow-200 pt-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-medium text-gray-900">
-                      कुल दान राशि:
-                    </span>
-                    <span className="text-xl font-bold text-yellow-600">
-                      ₹{donationAmount.toLocaleString("en-IN")}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <p className="text-center text-sm text-gray-600">
-                  आप निम्न विकल्पों में से किसी एक का उपयोग करके दान कर सकते हैं
-                </p>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <Button className="bg-yellow-600 hover:bg-yellow-700">
-                    <Heart className="mr-2 h-4 w-4" />
-                    ऑनलाइन दान करें
-                  </Button>
-                  <Button variant="outline">UPI से दान करें</Button>
-                </div>
-                <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-center">
-                  <p className="text-sm text-yellow-800">
-                    <span className="font-medium">UPI ID:</span> gauseva@ybl
-                  </p>
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={() => setShowDonateDialog(false)}
-              >
-                बाद में
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        {/* Payment Dialog */}
+        <PaymentDialog
+          showPaymentDialog={showPaymentDialog}
+          setShowPaymentDialog={setShowPaymentDialog}
+          totalAmount={donationAmount}
+          isGreen={false}
+          donationDetails={getDonationDetails()}
+        />
 
         {/* Call to Action */}
         <motion.div
