@@ -96,43 +96,45 @@ export default function Navbar() {
         <div className="container mx-auto px-4 pb-4 md:hidden">
           <nav className="flex flex-col space-y-3">
             <Link
-              href="/"
+              href="#home-section"
               className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
             </Link>
             <Link
-              href="/about"
+              href="#about-us-section"
               className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
               onClick={() => setIsMenuOpen(false)}
             >
               About Us
             </Link>
             <Link
-              href="/projects"
+              href="#donation-section"
               className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
               onClick={() => setIsMenuOpen(false)}
             >
-              Our Projects
+              Donation
             </Link>
             <Link
-              href="/gallery"
+              href="#gallery-section"
               className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
               onClick={() => setIsMenuOpen(false)}
             >
               Gallery
             </Link>
             <Link
-              href="/contact"
+              href="#footer-section"
               className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
             </Link>
-            <Button className="mt-2 w-full bg-orange-600 hover:bg-orange-700">
-              Donate Now
-            </Button>
+            <Link href="#donation-section" onClick={() => setIsMenuOpen(false)}>
+              <Button className="mt-2 w-full bg-orange-600 hover:bg-orange-700">
+                Donate Now
+              </Button>
+            </Link>
           </nav>
         </div>
       )}

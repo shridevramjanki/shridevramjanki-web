@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
+import VideoSection from "@/components/video-section";
 import AboutSection from "@/components/about-section";
 import GallerySection from "@/components/gallery-section";
 import DonationSection from "@/components/donation-section";
@@ -16,6 +17,7 @@ export default function Home() {
       <main>
         <HeroSection />
         <AboutSection />
+        <VideoSection />
         <GallerySection />
         <DonationProviderWrapper>
           <DonationSection />

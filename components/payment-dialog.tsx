@@ -313,7 +313,7 @@ const PaymentDialog = ({
               </Button>
               <Button
                 onClick={handleUserDetailsSubmit}
-                className={`bg-${primaryColor}-600 hover:bg-${primaryColor}-700`}
+                className={`bg-${primaryColor}-600 hover:bg-${primaryColor}-700 mt-2 sm:mt-0`}
               >
                 आगे बढ़ें
               </Button>
@@ -453,7 +453,7 @@ const PaymentDialog = ({
               </Button>
               <Button
                 onClick={() => resetDialog()}
-                className={`bg-${primaryColor}-600 hover:bg-${primaryColor}-700`}
+                className={`bg-${primaryColor}-600 hover:bg-${primaryColor}-700 mt-2 sm:mt-0`}
                 disabled={isSendingEmail}
               >
                 {isSendingEmail ? "प्रोसेसिंग..." : "संपन्न"}
