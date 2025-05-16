@@ -47,6 +47,8 @@ const PaymentDialog = ({
   // Check for temporary donation amount in local storage
   const [actualAmount, setActualAmount] = useState(totalAmount);
 
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
+
   useEffect(() => {
     const tempAmount = window.localStorage.getItem("temporaryDonationAmount");
     if (tempAmount) {
@@ -139,26 +141,33 @@ const PaymentDialog = ({
     }
   };
 
-  const resetDialog = async () => {
-    // Log payment details to console when done button is clicked
-    if (!showUserDetailsForm) {
-      const paymentInfo = {
-        user: userDetails,
-        amount: actualAmount,
-        donationType: donationDetails,
-        paymentMethod: {
-          upi: paymentDetails.upi,
-          bank: paymentDetails.bank,
-        },
-        timestamp: new Date().toISOString(),
-      };
+  const handlePaymentComplete = async () => {
+    // Mark payment as completed
+    setPaymentCompleted(true);
 
-      console.log("Payment Details:", paymentInfo);
+    // Create payment info object
+    const paymentInfo = {
+      user: userDetails,
+      amount: actualAmount,
+      donationType: donationDetails,
+      paymentMethod: {
+        upi: paymentDetails.upi,
+        bank: paymentDetails.bank,
+      },
+      timestamp: new Date().toISOString(),
+    };
 
-      // Send email with payment details
-      await sendPaymentEmail(paymentInfo);
-    }
+    console.log("Payment Details:", paymentInfo);
 
+    // Send email with payment details
+    await sendPaymentEmail(paymentInfo);
+
+    // Close the dialog
+    setShowPaymentDialog(false);
+  };
+
+  const resetDialog = () => {
+    // Reset all states without sending email
     setShowUserDetailsForm(true);
     setUserDetails({
       name: "",
@@ -170,6 +179,7 @@ const PaymentDialog = ({
       address: false,
       phone: false,
     });
+    setPaymentCompleted(false);
     setShowPaymentDialog(false);
   };
 
@@ -329,30 +339,24 @@ const PaymentDialog = ({
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-6 py-4 overflow-y-auto flex-grow">
-              <div className="flex flex-col items-center justify-center space-y-4">
-                <p className={`text-lg font-medium text-${primaryColor}-600`}>
-                  ₹{actualAmount}
-                </p>
-                <div
-                  className={`rounded-lg border-2 border-${primaryColor}-200 p-2`}
-                >
-                  <Image
-                    src={paymentDetails.upi.qrCode}
-                    alt="Payment QR Code"
-                    width={200}
-                    height={200}
-                    className="h-48 w-48 object-contain"
-                  />
-                </div>
-                <p className="text-sm text-gray-500">
-                  QR कोड स्कैन करके भुगतान करें
-                </p>
-              </div>
+              <p
+                className={`text-lg font-medium text-${primaryColor}-600 text-center`}
+              >
+                ₹{actualAmount}
+              </p>
 
-              <div className="space-y-3">
-                <h4 className="font-medium">या UPI आईडी का उपयोग करें</h4>
+              {/* UPI App Option - Shown First */}
+              <div
+                className={`space-y-3 p-4 rounded-lg border-2 border-${primaryColor}-400 bg-${primaryColor}-50 relative mb-8`}
+              >
+                <div className="absolute -top-3 right-4 bg-${primaryColor}-500 text-white text-xs px-3 py-1 rounded-full font-medium">
+                  सबसे तेज़ भुगतान विकल्प
+                </div>
+                <h4 className="font-medium text-${primaryColor}-800">
+                  UPI ऐप से भुगतान करें
+                </h4>
                 <div
-                  className={`flex items-center gap-2 rounded-md border bg-${primaryColor}-50 p-2`}
+                  className={`flex items-center gap-2 rounded-md border border-${primaryColor}-200 bg-white p-2`}
                 >
                   <span className={`flex-1 text-${primaryColor}-800`}>
                     {paymentDetails.upi.id}
@@ -373,8 +377,8 @@ const PaymentDialog = ({
                   </Button>
                 </div>
                 <Button
-                  variant="outline"
-                  className="w-full"
+                  variant="default"
+                  className={`w-full bg-${primaryColor}-600 hover:bg-${primaryColor}-700 text-white font-medium shadow-md transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 py-5 text-base`}
                   onClick={() => {
                     const upiLink = `upi://pay?pa=${
                       paymentDetails.upi.id
@@ -384,10 +388,50 @@ const PaymentDialog = ({
                     window.open(upiLink, "_blank");
                   }}
                 >
-                  UPI ऐप में खोलें (₹{actualAmount})
+                  <span className="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <line x1="2" y1="10" x2="22" y2="10" />
+                    </svg>
+                    UPI ऐप में खोलें (₹{actualAmount})
+                  </span>
+                  <span className="bg-white text-xs text-black px-2 py-1 rounded-full ml-1">
+                    सुझाया गया
+                  </span>
                 </Button>
               </div>
 
+              {/* QR Code Option - Shown Second */}
+              <div className="space-y-3">
+                <h4 className="font-medium">या QR कोड स्कैन करें</h4>
+                <div className="flex flex-col items-center justify-center space-y-4">
+                  <div
+                    className={`rounded-lg border-2 border-${primaryColor}-200 p-2`}
+                  >
+                    <Image
+                      src={paymentDetails.upi.qrCode}
+                      alt="Payment QR Code"
+                      width={200}
+                      height={200}
+                      className="h-48 w-48 object-contain"
+                    />
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    QR कोड स्कैन करके भुगतान करें
+                  </p>
+                </div>
+              </div>
+
+              {/* Bank Account Option - Shown Last */}
               <div className="space-y-3">
                 <h4 className="font-medium">या बैंक खाते में भुगतान करें</h4>
                 <div className="rounded-lg border p-4">
@@ -452,11 +496,11 @@ const PaymentDialog = ({
                 वापस जाएं
               </Button>
               <Button
-                onClick={() => resetDialog()}
+                onClick={handlePaymentComplete}
                 className={`bg-${primaryColor}-600 hover:bg-${primaryColor}-700 mt-2 sm:mt-0`}
                 disabled={isSendingEmail}
               >
-                {isSendingEmail ? "प्रोसेसिंग..." : "संपन्न"}
+                {isSendingEmail ? "प्रोसेसिंग..." : "भुगतान संपन्न"}
               </Button>
             </DialogFooter>
           </>
