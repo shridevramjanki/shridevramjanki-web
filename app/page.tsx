@@ -9,6 +9,7 @@ import Footer from "@/components/footer";
 import ShelterCostsSection from "@/components/shelter-cost";
 import DulaDaanSection from "@/components/tula-dan";
 import DonationProviderWrapper from "@/components/donation-provider-wrapper";
+import QuickDonationSection from "@/components/quick-donation-section";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroSection />
+        <QuickDonationSection />
         <AboutSection />
         <VideoSection />
         <GallerySection />

@@ -10,14 +10,34 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Heart, Info, ArrowRight, Star } from "lucide-react";
+import {
+  Heart,
+  Info,
+  ArrowRight,
+  Star,
+  CreditCard,
+  Landmark,
+  QrCode,
+  Copy,
+  Check,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
+import { paymentDetails } from "@/content";
 
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false);
   const [currentSlogan, setCurrentSlogan] = useState(0);
+  const [copyStatus, setCopyStatus] = useState<{ [key: string]: boolean }>({});
+
+  const copyToClipboard = (text: string, field: string) => {
+    navigator.clipboard.writeText(text);
+    setCopyStatus({ ...copyStatus, [field]: true });
+    setTimeout(() => {
+      setCopyStatus({ ...copyStatus, [field]: false });
+    }, 2000);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -118,21 +138,21 @@ export default function HeroSection() {
             </div>
 
             <div className="flex flex-col gap-4 pt-4 sm:flex-row">
-              <Link href="#donation-section">
+              <Link href="#donation-section" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="group bg-orange-600 text-base hover:bg-orange-700"
+                  className="group w-full bg-orange-600 text-base hover:bg-orange-700 sm:w-auto"
                 >
                   <Heart className="mr-2 h-5 w-5" />
                   अभी दान करें
                   <ArrowRight className="ml-2 h-4 w-0 transition-all group-hover:w-4" />
                 </Button>
               </Link>
-              <Link href="#about-us-section">
+              <Link href="#about-us-section" className="w-full sm:w-auto">
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-green-700 text-base text-green-700 hover:bg-green-50"
+                  className="w-full border-green-700 text-base text-green-700 hover:bg-green-50 sm:w-auto"
                 >
                   <Info className="mr-2 h-5 w-5" />
                   और जानें
@@ -226,74 +246,6 @@ export default function HeroSection() {
             </div>
           </motion.div>
         </div>
-        {/* 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-4"
-        >
-          <div className="rounded-xl bg-white p-4 shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
-            <div className="flex flex-col items-center text-center">
-              <div className="mb-2 rounded-full bg-orange-100 p-2">
-                <Image
-                  src="/images/icon-cow.png"
-                  alt="Cow Icon"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8"
-                />
-              </div>
-              <p className="text-2xl font-bold text-orange-600">1,247+</p>
-              <p className="text-sm text-gray-500">गौ माता संरक्षित</p>
-            </div>
-          </div>
-          <div className="rounded-xl bg-white p-4 shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
-            <div className="flex flex-col items-center text-center">
-              <div className="mb-2 rounded-full bg-green-100 p-2">
-                <Image
-                  src="/images/icon-ashram.png"
-                  alt="Ashram Icon"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8"
-                />
-              </div>
-              <p className="text-2xl font-bold text-green-700">24</p>
-              <p className="text-sm text-gray-500">गौशालाएँ</p>
-            </div>
-          </div>
-          <div className="rounded-xl bg-white p-4 shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
-            <div className="flex flex-col items-center text-center">
-              <div className="mb-2 rounded-full bg-orange-100 p-2">
-                <Image
-                  src="/images/icon-donation.png"
-                  alt="Donation Icon"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8"
-                />
-              </div>
-              <p className="text-2xl font-bold text-orange-600">₹4.3 करोड़</p>
-              <p className="text-sm text-gray-500">कुल दान</p>
-            </div>
-          </div>
-          <div className="rounded-xl bg-white p-4 shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
-            <div className="flex flex-col items-center text-center">
-              <div className="mb-2 rounded-full bg-green-100 p-2">
-                <Image
-                  src="/images/icon-calendar.png"
-                  alt="Calendar Icon"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8"
-                />
-              </div>
-              <p className="text-2xl font-bold text-green-700">18</p>
-              <p className="text-sm text-gray-500">वर्षों का अनुभव</p>
-            </div>
-          </div>
-        </motion.div> */}
       </div>
     </section>
   );
