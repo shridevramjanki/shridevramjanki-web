@@ -42,6 +42,7 @@ const PaymentDialog = ({
     address: false,
     phone: false,
   });
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
 
   // Check for temporary donation amount in local storage
   const [actualAmount, setActualAmount] = useState(totalAmount);
@@ -96,7 +97,68 @@ const PaymentDialog = ({
     });
   };
 
-  const resetDialog = () => {
+  // Function to send payment details email
+  const sendPaymentEmail = async (paymentInfo: any) => {
+    try {
+      setIsSendingEmail(true);
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentInfo),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: "ईमेल भेजा गया",
+          description: "आपके दान का विवरण सफलतापूर्वक भेजा गया है।",
+          duration: 3000,
+        });
+      } else {
+        console.error("Failed to send email:", data.message);
+        toast({
+          title: "ईमेल भेजने में समस्या",
+          description: "कृपया बाद में पुन: प्रयास करें।",
+          variant: "destructive",
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast({
+        title: "ईमेल भेजने में समस्या",
+        description: "कृपया बाद में पुन: प्रयास करें।",
+        variant: "destructive",
+        duration: 3000,
+      });
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
+
+  const resetDialog = async () => {
+    // Log payment details to console when done button is clicked
+    if (!showUserDetailsForm) {
+      const paymentInfo = {
+        user: userDetails,
+        amount: actualAmount,
+        donationType: donationDetails,
+        paymentMethod: {
+          upi: paymentDetails.upi,
+          bank: paymentDetails.bank,
+        },
+        timestamp: new Date().toISOString(),
+      };
+
+      console.log("Payment Details:", paymentInfo);
+
+      // Send email with payment details
+      await sendPaymentEmail(paymentInfo);
+    }
+
     setShowUserDetailsForm(true);
     setUserDetails({
       name: "",
@@ -385,14 +447,16 @@ const PaymentDialog = ({
               <Button
                 variant="outline"
                 onClick={() => setShowUserDetailsForm(true)}
+                disabled={isSendingEmail}
               >
                 वापस जाएं
               </Button>
               <Button
                 onClick={() => resetDialog()}
                 className={`bg-${primaryColor}-600 hover:bg-${primaryColor}-700`}
+                disabled={isSendingEmail}
               >
-                संपन्न
+                {isSendingEmail ? "प्रोसेसिंग..." : "संपन्न"}
               </Button>
             </DialogFooter>
           </>

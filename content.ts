@@ -30,9 +30,9 @@ export const contactDetails = {
 
 export const paymentDetails = {
   upi: {
-    id: "gauseva@ybl",
-    name: "गौ सेवा ट्रस्ट",
-    qrCode: "/images/payment/qr-code.png",
+    id: "12350887@cbin",
+    name: "Shri DevRam Janki Gaushala",
+    qrCode: "/images/payment/qr.png",
   },
   bank: bankDetails,
 };

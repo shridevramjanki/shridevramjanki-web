@@ -10,7 +10,7 @@ import {
   MapPin,
   MessageCircle,
 } from "lucide-react";
-import { contactDetails } from "@/content";
+import { contactDetails, paymentDetails } from "@/content";
 
 export default function Footer() {
   return (
@@ -174,7 +174,7 @@ export default function Footer() {
             <div className="flex flex-col items-center space-y-3">
               <div className="rounded-lg border-2 border-orange-200 bg-white p-2">
                 <Image
-                  src="/images/payment/qr-code.png"
+                  src="/images/payment/qr.png"
                   alt="Donation QR Code"
                   width={150}
                   height={150}
@@ -187,7 +187,8 @@ export default function Footer() {
             </div>
             <div className="mt-4 rounded-lg border border-orange-200 bg-orange-50 p-3">
               <p className="text-sm text-orange-800">
-                <span className="font-bold">UPI से दान करें:</span> gauseva@ybl
+                <span className="font-bold">UPI से दान करें:</span>
+                {paymentDetails.upi.id}
               </p>
             </div>
             <div className="mt-4 rounded-lg border border-orange-200 bg-orange-50 p-3">
