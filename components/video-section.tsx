@@ -11,27 +11,15 @@ export default function VideoSection() {
   const videos = [
     {
       id: 1,
-      title: "गौशाला का परिचय",
-      description:
-        "श्री देव राम जानकी गौशाला के बारे में जानकारी और इसके महत्व के बारे में",
-      embedUrl: "https://www.youtube.com/embed/PLACEHOLDER_ID_1", // Replace with actual YouTube video ID
-      thumbnail: "/images/gallery/cc1.jpeg", // Placeholder thumbnail
+      embedUrl: "https://www.youtube.com/embed/6AEHeBWmscI",
     },
     {
       id: 2,
-      title: "गौ सेवा का महत्व",
-      description:
-        "हमारी संस्कृति में गौ माता के महत्व और उनकी सेवा का धार्मिक महत्व",
-      embedUrl: "https://www.youtube.com/embed/PLACEHOLDER_ID_2", // Replace with actual YouTube video ID
-      thumbnail: "/images/gallery/cc3.jpeg", // Placeholder thumbnail
+      embedUrl: "https://www.youtube.com/embed/IN4an0nus4A",
     },
     {
       id: 3,
-      title: "गौशाला गतिविधियां",
-      description:
-        "हमारी गौशाला में होने वाली दैनिक गतिविधियों और कार्यों का विवरण",
-      embedUrl: "https://www.youtube.com/embed/PLACEHOLDER_ID_3", // Replace with actual YouTube video ID
-      thumbnail: "/images/gallery/cc5.jpeg", // Placeholder thumbnail
+      embedUrl: "https://www.youtube.com/embed/l7VT5rPZRWs",
     },
   ];
 
@@ -76,16 +64,10 @@ export default function VideoSection() {
                 <iframe
                   className="h-full w-full"
                   src={video.embedUrl}
-                  title={video.title}
+                  title={`Video ${video.id}`}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
-              </div>
-              <div className="p-4">
-                <h3 className="mb-2 text-xl font-semibold text-gray-900">
-                  {video.title}
-                </h3>
-                <p className="text-gray-600">{video.description}</p>
               </div>
             </motion.div>
           ))}
