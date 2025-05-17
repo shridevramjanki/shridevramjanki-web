@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { LoadingProvider } from "@/context/loading-context";
+import { LoadingDialog } from "@/components/loading-dialog";
 
 export const metadata: Metadata = {
   title: "Shri DevRam Janki Gaushala",
@@ -17,8 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <Analytics />
+        <LoadingProvider>
+          <LoadingDialog />
+          {children}
+          <Analytics />
+        </LoadingProvider>
       </body>
     </html>
   );
