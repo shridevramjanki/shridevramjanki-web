@@ -47,6 +47,18 @@ export default function AboutSection() {
       image: "/images/team/ankit.png",
       phone: contactDetails.phone_ankit,
     },
+    {
+      id: 5,
+      name: "श्री संतअवध बिहारीदास जी",
+      role: "सह संचालक",
+      image: "/images/team/team-a-6.png",
+    },
+    {
+      id: 5,
+      name: "महामंडलेश्वर स्वामी अखिलेश्वरानंद गिरी जी महाराज",
+      role: "हमारे मार्गदर्शक और प्रेरणा स्रोत (मध्यप्रदेश गौ संवर्धन कार्य परिषद के अध्यक्ष पूर्व राज्यमंत्री दर्जा प्राप्त)",
+      image: "/images/team/team-a-5.png",
+    },
   ];
 
   const stats = [

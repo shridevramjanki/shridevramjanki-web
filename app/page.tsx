@@ -10,6 +10,7 @@ import ShelterCostsSection from "@/components/shelter-cost";
 import DulaDaanSection from "@/components/tula-dan";
 import DonationProviderWrapper from "@/components/donation-provider-wrapper";
 import QuickDonationSection from "@/components/quick-donation-section";
+import CowReverenceSection from "@/components/cow-reverence-section";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <QuickDonationSection />
         <AboutSection />
         <VideoSection />
+        <CowReverenceSection />
         <GallerySection />
         <DonationProviderWrapper>
           <DonationSection />
