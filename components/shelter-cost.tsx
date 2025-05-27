@@ -79,7 +79,7 @@ export default function ShelterCostsSection() {
           <div className="grid gap-8 md:grid-cols-2">
             <div className="relative overflow-hidden rounded-xl border">
               <Image
-                src="/images/shelter.jpg"
+                src="/images/shelter.png"
                 alt="गौशाला निर्माण"
                 width={600}
                 height={400}

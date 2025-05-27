@@ -40,7 +40,7 @@ const donationOptions = [
   {
     id: "daily",
     title: "दैनिक गौ सेवा",
-    amount: 501,
+    amount: 201,
     description: "एक दिन के लिए एक गौ माता का भोजन और देखभाल",
     benefits: [
       "एक गौ माता का एक दिन का चारा",

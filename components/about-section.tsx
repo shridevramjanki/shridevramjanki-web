@@ -3,15 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  Calendar,
-  Users,
-  Award,
-  MapPin,
-  Phone,
-  Mail,
-  ArrowRight,
-} from "lucide-react";
+import { Calendar, Users, Award, MapPin, Phone, Mail } from "lucide-react";
 import { contactDetails, statsDetails } from "@/content";
 import Link from "next/link";
 
@@ -29,7 +21,7 @@ export default function AboutSection() {
     },
     {
       id: 2,
-      name: "श्री प्रेवेश जी राय",
+      name: "श्री प्रवेश जी राय",
       role: "कौशाध्यक्ष",
       image: "/images/team/cofounder.png",
       phone: contactDetails.phone_parvesh,
@@ -54,10 +46,16 @@ export default function AboutSection() {
       image: "/images/team/team-a-6.png",
     },
     {
-      id: 5,
-      name: "महामंडलेश्वर स्वामी अखिलेश्वरानंद गिरी जी महाराज",
-      role: "हमारे मार्गदर्शक और प्रेरणा स्रोत (मध्यप्रदेश गौ संवर्धन कार्य परिषद के अध्यक्ष पूर्व राज्यमंत्री दर्जा प्राप्त)",
+      id: 6,
+      name: "स्वामी अखिलेश्वरानंद गिरी जी महाराज",
+      role: `हमारे मार्गदर्शक और प्रेरणा स्रोत"`,
       image: "/images/team/team-a-5.png",
+    },
+    {
+      id: 7,
+      name: "श्री संजय शर्मा जी",
+      role: "सहयोगी सदस्य",
+      image: "/images/team/team8.png",
     },
   ];
 
@@ -322,10 +320,23 @@ export default function AboutSection() {
                     className="object-contain transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
+
                 <div className="p-4">
+                  {member.id === 6 && (
+                    <div className=" font-semibold text-gray-900">
+                      महामंडलेश्वर
+                    </div>
+                  )}
+
                   <h4 className="text-lg font-semibold text-gray-900">
                     {member.name}
                   </h4>
+                  {member.id === 6 && (
+                    <div className=" font-semibold text-gray-900">
+                      मध्यप्रदेश गो संवर्द्धन बोर्ड (कार्य परिषद्) के पूर्व
+                      अध्यक्ष "राज्य शासन के केबिनेट मंत्री का दर्जा
+                    </div>
+                  )}
                   <p className="text-sm text-gray-600">{member.role}</p>
                   {member.phone && (
                     <p className="text-sm text-gray-500">{member.phone}</p>

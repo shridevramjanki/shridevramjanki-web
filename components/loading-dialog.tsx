@@ -23,7 +23,7 @@ export const LoadingDialog = () => {
         </div>
 
         <Image
-          src="/images/cow-1.jpg"
+          src="/images/gir.png"
           alt="Gomata"
           width={120}
           height={120}
